@@ -18,7 +18,7 @@ minimal_mistakes_skin    : "dark" # "air", "aqua", "contrast", "dark", "dirt", "
 locale                   : "en-US"
 title                    : "Diego Blog"
 title_separator          : "|"
-subtitle                 : "Tech and personal blog"# site tagline that appears below site title in masthead
+subtitle                 : "Tech and personal blog" # site tagline that appears below site title in masthead
 name                     : "Diego Carballeda"
 description              : "Diego Carballeda's personal blog to talk about tech and other stuff."
 url                      : "https://diegocarba99.github.io" # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
