@@ -99,7 +99,7 @@ analytics:
 # Site Author
 author:
   name             : "Diego Carballeda"
-  avatar           : "/assets/images/logo.png"  # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
+  avatar           : "/assets/images/logo_big.png"  # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
   bio              : "Computer Science student, photographer and guitar player. Trying to create meaningful content."
   location         : "Urnieta, Gipuzkoa"
   email            : 
