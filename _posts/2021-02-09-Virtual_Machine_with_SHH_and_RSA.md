@@ -1,8 +1,8 @@
 ---
 title:  "Setting up a VM environment"
 header:
-  teaser: "https://images.unsplash.com/photo-1504639725590-34d0984388bd?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1267&q=80"
-  caption: "Photo credit: [**Unsplash**](https://unsplash.com)"
+  header:
+  image: /assets/images/head001.jpg
 categories: 
   - Computer Science
 tags:
