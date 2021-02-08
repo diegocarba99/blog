@@ -40,15 +40,14 @@ The Virtual Machine must be turned off to perform these steps.
 
 For that, head to the VM settings (the orange gearwheel). Select the **Network** category. We'll be only using the first Network Adapter. Select the **NAT** option on the *Attached to* menu.
 
-{% raw %}![NAT adapter]({{ site.url }}{{ site.baseurl }}/assets/images/001_network_adapter_NAT.png)
-{: .full}{% endraw %}
+![NAT adapter]({{ site.url }}{{ site.baseurl }}/assets/images/001_network_adapter_NAT.png)
 
 After that, we need to access the **Advanced Options** clicking on the bottom , and enable **Port Forwarding** for our SSH connection. We click on the drop down button on the bottom of the window, and enter the **Port Forwarding** menu clicking on it. 
 
 There, we press the upper right icon with a green cross to add a new rule. You must **add a rule** similar to this one:
 
-{% raw %}![NAT adapter]({{ site.url }}{{ site.baseurl }}/assets/images/002_port_rule.png)
-{: .full}{% endraw %}
+![NAT adapter]({{ site.url }}{{ site.baseurl }}/assets/images/002_port_rule.png)
+
 
 
 Let's clarify that rule. We are telling VirtualBox that every time a connection to address`127.0.0.1` on port `8022` is performed, to re-direct it to the Virtual Machines IP address (`10.0.2.15`). We also specify the destination port on the VM. In this case, since we want to access SHH, we must forward the connection to port 22. 
