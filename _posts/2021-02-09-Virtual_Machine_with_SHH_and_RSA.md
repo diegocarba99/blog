@@ -1,9 +1,8 @@
 ---
 title:  "Setting up a VM environment"
 header:
-  teaser: "https://farm5.staticflickr.com/4076/4940499208_b79b77fb0a_z.jpg"
+  teaser: "https://images.unsplash.com/photo-1504639725590-34d0984388bd?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1267&q=80"
   caption: "Photo credit: [**Unsplash**](https://unsplash.com)"
-  image: assets/images/unsplash-image-9.jpg
 categories: 
   - Computer Science
 tags:
@@ -11,9 +10,6 @@ tags:
   - SSH
 excerpt: "How to setup a virtual machine with SSH access"
 author_profile: false
-sidebar:
-  title: "Setting up a VM environment"
-  nav: sidebar-sample
 ---
 
 Do you ever try to set-up a Virtual Machine (VM) environment on your local PC and always get stuck? You managed that one time to set-up everything to work smoothly, but now you forgot how all the process went along. Don't worry, we've all been there. In this blog post, I'll try to help you set up a VM on VirtualBox and get everything up and running in a few steps.
