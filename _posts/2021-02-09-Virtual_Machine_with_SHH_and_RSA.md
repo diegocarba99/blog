@@ -40,6 +40,11 @@ The Virtual Machine must be turned off to perform these steps.
 
 For that, head to the VM settings (the orange gearwheel). Select the **Network** category. We'll be only using the first Network Adapter. Select the **NAT** option on the *Attached to* menu.
 
+{% capture fig_img %} ![foo]({{ '/assets/images/001_network_adapter_NAT.png'}}) {% endcapture %}
+{{ fig_img | markdownify | remove: "
+" | remove: "
+" }} Photo from Unsplash. 
+
 ![Unsplash image 10]({{ site.url }}{{ site.baseurl }}/assets/images/001_network_adapter_NAT.png) {: .full}
 
 After that, we need to access the **Advanced Options** clicking on the bottom , and enable **Port Forwarding** for our SSH connection. We click on the drop down button on the bottom of the window, and enter the **Port Forwarding** menu clicking on it. 
