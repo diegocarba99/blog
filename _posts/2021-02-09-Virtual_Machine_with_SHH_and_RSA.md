@@ -41,7 +41,7 @@ The Virtual Machine must be turned off to perform these steps.
 For that, head to the VM settings (the orange gearwheel). Select the **Network** category. We'll be only using the first Network Adapter. Select the **NAT** option on the *Attached to* menu.
 
 {% capture fig_img %}
-[![Foo](https://images.unsplash.com/photo-1541943869728-4bd4f450c8f5?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=800&fit=max&ixid=eyJhcHBfaWQiOjF9)](https://unsplash.com/)
+[![Foo](/assets/images/001_network_adapter_NAT.png)](https://unsplash.com/)
 {% endcapture %}
 
 {% capture fig_caption %}
