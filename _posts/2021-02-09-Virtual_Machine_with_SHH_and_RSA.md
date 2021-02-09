@@ -5,9 +5,6 @@ header:
   image: /assets/images/b001/header.jpg
 categories: 
   - Computer Science
-tags:
-  - Virtual Machine
-  - SSH
 excerpt: "How to setup a virtual machine with SSH access"
 author_profile: false
 ---
