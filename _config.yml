@@ -273,12 +273,12 @@ defaults:
       path: ""
       type: posts
     values:
-      read_time: true
+      read_time: false
       show_date: true
       layout: single
-      author_profile: true
-      comments: true
-      share: true
+      author_profile: false
+      comments: false
+      share: false
       related: true
   # _pages
   - scope:
