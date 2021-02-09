@@ -2,7 +2,7 @@
 title:  "Setting up a VM environment"
 header:
   header:
-  image: /assets/images/head001.jpg
+  image: /assets/images/b001/header.jpg
 categories: 
   - Computer Science
 tags:
@@ -40,13 +40,13 @@ The Virtual Machine must be turned off to perform these steps.
 
 For that, head to the VM settings (the orange gearwheel). Select the **Network** category. We'll be only using the first Network Adapter. Select the **NAT** option on the *Attached to* menu.
 
-![nat adapter]({{ site.url }}{{ site.baseurl }}/assets/images/001_network_adapter_NAT.png)
+![nat adapter]({{ site.url }}{{ site.baseurl }}/assets/images/b001/001_network_adapter_NAT.png)
 
 After that, we need to access the **Advanced Options** clicking on the bottom , and enable **Port Forwarding** for our SSH connection. We click on the drop down button on the bottom of the window, and enter the **Port Forwarding** menu clicking on it. 
 
 There, we press the upper right icon with a green cross to add a new rule. You must **add a rule** similar to this one:
 
-![port rule]({{ site.url }}{{ site.baseurl }}/assets/images/002_port_rule.png)
+![port rule]({{ site.url }}{{ site.baseurl }}/assets/images/b001/002_port_rule.png)
 
 
 
