@@ -1,0 +1,761 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://diegocarba99.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://diegocarba99.github.io/blog/" rel="alternate" type="text/html" /><updated>2021-02-11T23:14:13+01:00</updated><id>https://diegocarba99.github.io/blog/feed.xml</id><title type="html">Diego Blog</title><subtitle>Diego Carballeda's personal blog to talk about tech and other stuff.</subtitle><author><name>Diego Carballeda</name></author><entry><title type="html">DUPLICATED</title><link href="https://diegocarba99.github.io/blog/computer%20science/Duplicated-(10.a-copia)/" rel="alternate" type="text/html" title="DUPLICATED" /><published>2021-02-11T00:00:00+01:00</published><updated>2021-02-11T00:00:00+01:00</updated><id>https://diegocarba99.github.io/blog/computer%20science/Duplicated%20(10.a%20copia)</id><content type="html" xml:base="https://diegocarba99.github.io/blog/computer%20science/Duplicated-(10.a-copia)/">&lt;p&gt;Do you ever try to set-up a Virtual Machine (VM) environment on your local PC and always get stuck? You managed that one time to set-up everything to work smoothly, but now you forgot how all the process went along. Don’t worry, we’ve all been there. In this blog post, I’ll try to help you set up a VM on VirtualBox and get everything up and running in a few steps.&lt;/p&gt;
+
+&lt;h1 id=&quot;creating-the-vm-instance&quot;&gt;Creating the VM instance&lt;/h1&gt;
+
+&lt;p&gt;First of all, we need a VM. There are several options out there, and your taste might be (probably will be) different from mine. Nevertheless, for the sake of simplicity, we’ll set up a &lt;strong&gt;Debian&lt;/strong&gt; machine and &lt;strong&gt;VirtualBox&lt;/strong&gt; will be our hypervisor of choice.&lt;/p&gt;
+
+&lt;p&gt;I’ve chosen Debian for two main reasons. First of all, because is a Linux distro, and many of you will be looking for a Linux VM since the majority of the computer users worldwide use Windows. It’s a shame, but that how it is. Secondly, because is a very friendly Linux distro to start with, since it’s community is huge. Several forums exist so that every possible doubt can be solved rapidly, or probably will be already solved.&lt;/p&gt;
+
+&lt;p&gt;Also, I’ve chosen VirtualBox as the hypervisor for the VM. I personally like free-to-use and open-source software, since I think it drives the community forward and doesn’t envy anything to paid products.&lt;/p&gt;
+
+&lt;p&gt;After deciding the environment well be using, it’s time to set up the VM. If you’ve already set up a VM, you can jump right to the next part. Otherwise, you can &lt;strong&gt;follow a simple tutorial&lt;/strong&gt; to set the VM up. There are plenty and very comprehensive tutorials out there on how to install any SO on a VirtualBox VM. Personally, &lt;strong&gt;I recommend this tutorial&lt;/strong&gt; from &lt;a href=&quot;https://www.brianlinkletter.com/installing-debian-linux-in-a-virtualbox-virtual-machine/&quot;&gt;Open-Source Network Simulators&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;enabling-shh-access&quot;&gt;Enabling SHH access&lt;/h2&gt;
+&lt;p&gt;Most of the times, all the work we do on a VM is &lt;strong&gt;accessing the terminal&lt;/strong&gt; and working on it. Since we  use VMs as tools, we often don’t customize the environment to our liking. That doesn’t happen in our host machine. We usually have &lt;strong&gt;custom terminal&lt;/strong&gt; fonts or commands, or personalized desktop environments to suit our tastes. A good way to avoid working directly on the Virtual Machine and using all our custom environment is to &lt;strong&gt;access the VM via SSH&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;First of all, install the SSH server packgae &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;openssh-server&lt;/code&gt; on the Debian virtual machine. Simply run the following:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get update &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;openshh-server
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If we want to use SSH though, we must configure VirtualBox so that we can establish a connection between our host (your actual machine) and guest (the VM) machines. First, we have to set up the network adapters on our VM. Network Adapters are like the physical network interfaces for our VM. Since we want both Internet connection from our VM, and also an SSH connection from our host machine, we’ll set up a NAT-like Network Adapter.&lt;/p&gt;
+
+&lt;p class=&quot;notice--warning&quot;&gt;The Virtual Machine must be turned off to perform these steps.&lt;/p&gt;
+
+&lt;p&gt;For that, head to the VM settings (the orange gearwheel). Select the &lt;strong&gt;Network&lt;/strong&gt; category. We’ll be only using the first Network Adapter. Select the &lt;strong&gt;NAT&lt;/strong&gt; option on the &lt;em&gt;Attached to&lt;/em&gt; menu.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://diegocarba99.github.io/blog/assets/images/b001/001_network_adapter_NAT.png&quot; alt=&quot;nat adapter&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;After that, we need to access the &lt;strong&gt;Advanced Options&lt;/strong&gt; clicking on the bottom , and enable &lt;strong&gt;Port Forwarding&lt;/strong&gt; for our SSH connection. We click on the drop down button on the bottom of the window, and enter the &lt;strong&gt;Port Forwarding&lt;/strong&gt; menu clicking on it.&lt;/p&gt;
+
+&lt;p&gt;There, we press the upper right icon with a green cross to add a new rule. You must &lt;strong&gt;add a rule&lt;/strong&gt; similar to this one:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://diegocarba99.github.io/blog/assets/images/b001/002_port_rule.png&quot; alt=&quot;port rule&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Let’s clarify that rule. We are telling VirtualBox that every time a connection to address&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;127.0.0.1&lt;/code&gt; on port &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;8022&lt;/code&gt; is performed, to re-direct it to the Virtual Machines IP address (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;10.0.2.15&lt;/code&gt;). We also specify the destination port on the VM. In this case, since we want to access SHH, we must forward the connection to port 22.&lt;/p&gt;
+
+&lt;p class=&quot;notice&quot;&gt;Notice that the VMs address in the rule might not be your VMs IP address. If you want to check your IP address, you can run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$ hostname -I&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;We used the port 8022 because it will probably be an unused port on your Debian machine. This port number can be any port you like, but make sure you &lt;strong&gt;don’t overlap any other port in use&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;After all these steps, you should be able to &lt;strong&gt;connect&lt;/strong&gt; to your Debian machine &lt;strong&gt;through SSH&lt;/strong&gt;. You can access the virtual machine with the following command.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;shh &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 8022 user@127.0.0.1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;connection-with-rsa-and-custom-command&quot;&gt;Connection with RSA and custom command&lt;/h2&gt;
+&lt;p&gt;I have to admit that I usually don’t like to be &lt;strong&gt;repeating the same long command over and over again&lt;/strong&gt; for a task I know I’ll be doing repeatedly. This has led to aliasing or creating custom scripts to execute my most common tasks on my Linux machine. And connecting to my VM via SSH is one of those. So, in this chapter I’ll show you how to &lt;strong&gt;create a RSA key pair&lt;/strong&gt; to automatically connect to your VM without entering any passwords, and how to collapse all the process to executing a single command on your terminal.&lt;/p&gt;
+
+&lt;h3 id=&quot;rsa-key-pair&quot;&gt;RSA key pair&lt;/h3&gt;
+&lt;p&gt;SHH has a built-in feature, that let’s you create a pair of public/private keys to automate the connection through this protocol. We must follow these two simple steps:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;First we create the key pair using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh-keygen&lt;/code&gt; tool. In our case, we will be creating an RSA key pair with a key size of &lt;strong&gt;4096 B&lt;/strong&gt;. The algorithm is selected using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-t&lt;/code&gt; option and key size using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-b&lt;/code&gt; option. The default location to place the keys in it’s file will be the&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.ssh/&lt;/code&gt; directory on the users home directory, on a file name &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;id_rsa&lt;/code&gt;.  The command is the following:
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;ssh-keygen &lt;span class=&quot;nt&quot;&gt;-t&lt;/span&gt; rsa &lt;span class=&quot;nt&quot;&gt;-b&lt;/span&gt; 4096
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Next, we have to copy this key to our Debian machine. We can complete this step using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh-copy-id&lt;/code&gt; command. We must specify where we want to copy our key, so we’ll indicate th VMs address and port in the command:&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ssh-copy-id user1@127.0.0.1 &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 8022
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;With that, you know can access the Debian VM without entering any password on the command line.&lt;/p&gt;
+
+&lt;h3 id=&quot;custom-short-command&quot;&gt;Custom short command&lt;/h3&gt;
+&lt;p&gt;Since no password is now needed to connect via SSH to the Virtual Machine, I like to automate all the process by creating a custom script for this. In this case, the script will only contain a single line of code, but in other scenarios you might want to perform additional actions before connecting to the VM, such as starting it for example. In order to create a custom script, we just create a file on the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/bin&lt;/code&gt; directory. Remember to create the file with &lt;strong&gt;sudo permissions&lt;/strong&gt;. My file will be called &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh_galileo&lt;/code&gt; and contains the following:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+ssh &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 8022 user@127.0.0.1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Then, we give execution permissions to the file with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;chmod&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo chmod&lt;/span&gt; +x /bin/ssh_galileo
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;And done! After that, you just run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh_galileo&lt;/code&gt; and you can automatically connect through SHH to your Debian machine.&lt;/p&gt;</content><author><name>Diego Carballeda</name></author><category term="Computer Science" /><summary type="html">How to setup a virtual machine with SSH access</summary></entry><entry><title type="html">DUPLICATED</title><link href="https://diegocarba99.github.io/blog/computer%20science/Duplicated-(11.a-copia)/" rel="alternate" type="text/html" title="DUPLICATED" /><published>2021-02-11T00:00:00+01:00</published><updated>2021-02-11T00:00:00+01:00</updated><id>https://diegocarba99.github.io/blog/computer%20science/Duplicated%20(11.a%20copia)</id><content type="html" xml:base="https://diegocarba99.github.io/blog/computer%20science/Duplicated-(11.a-copia)/">&lt;p&gt;Do you ever try to set-up a Virtual Machine (VM) environment on your local PC and always get stuck? You managed that one time to set-up everything to work smoothly, but now you forgot how all the process went along. Don’t worry, we’ve all been there. In this blog post, I’ll try to help you set up a VM on VirtualBox and get everything up and running in a few steps.&lt;/p&gt;
+
+&lt;h1 id=&quot;creating-the-vm-instance&quot;&gt;Creating the VM instance&lt;/h1&gt;
+
+&lt;p&gt;First of all, we need a VM. There are several options out there, and your taste might be (probably will be) different from mine. Nevertheless, for the sake of simplicity, we’ll set up a &lt;strong&gt;Debian&lt;/strong&gt; machine and &lt;strong&gt;VirtualBox&lt;/strong&gt; will be our hypervisor of choice.&lt;/p&gt;
+
+&lt;p&gt;I’ve chosen Debian for two main reasons. First of all, because is a Linux distro, and many of you will be looking for a Linux VM since the majority of the computer users worldwide use Windows. It’s a shame, but that how it is. Secondly, because is a very friendly Linux distro to start with, since it’s community is huge. Several forums exist so that every possible doubt can be solved rapidly, or probably will be already solved.&lt;/p&gt;
+
+&lt;p&gt;Also, I’ve chosen VirtualBox as the hypervisor for the VM. I personally like free-to-use and open-source software, since I think it drives the community forward and doesn’t envy anything to paid products.&lt;/p&gt;
+
+&lt;p&gt;After deciding the environment well be using, it’s time to set up the VM. If you’ve already set up a VM, you can jump right to the next part. Otherwise, you can &lt;strong&gt;follow a simple tutorial&lt;/strong&gt; to set the VM up. There are plenty and very comprehensive tutorials out there on how to install any SO on a VirtualBox VM. Personally, &lt;strong&gt;I recommend this tutorial&lt;/strong&gt; from &lt;a href=&quot;https://www.brianlinkletter.com/installing-debian-linux-in-a-virtualbox-virtual-machine/&quot;&gt;Open-Source Network Simulators&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;enabling-shh-access&quot;&gt;Enabling SHH access&lt;/h2&gt;
+&lt;p&gt;Most of the times, all the work we do on a VM is &lt;strong&gt;accessing the terminal&lt;/strong&gt; and working on it. Since we  use VMs as tools, we often don’t customize the environment to our liking. That doesn’t happen in our host machine. We usually have &lt;strong&gt;custom terminal&lt;/strong&gt; fonts or commands, or personalized desktop environments to suit our tastes. A good way to avoid working directly on the Virtual Machine and using all our custom environment is to &lt;strong&gt;access the VM via SSH&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;First of all, install the SSH server packgae &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;openssh-server&lt;/code&gt; on the Debian virtual machine. Simply run the following:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get update &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;openshh-server
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If we want to use SSH though, we must configure VirtualBox so that we can establish a connection between our host (your actual machine) and guest (the VM) machines. First, we have to set up the network adapters on our VM. Network Adapters are like the physical network interfaces for our VM. Since we want both Internet connection from our VM, and also an SSH connection from our host machine, we’ll set up a NAT-like Network Adapter.&lt;/p&gt;
+
+&lt;p class=&quot;notice--warning&quot;&gt;The Virtual Machine must be turned off to perform these steps.&lt;/p&gt;
+
+&lt;p&gt;For that, head to the VM settings (the orange gearwheel). Select the &lt;strong&gt;Network&lt;/strong&gt; category. We’ll be only using the first Network Adapter. Select the &lt;strong&gt;NAT&lt;/strong&gt; option on the &lt;em&gt;Attached to&lt;/em&gt; menu.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://diegocarba99.github.io/blog/assets/images/b001/001_network_adapter_NAT.png&quot; alt=&quot;nat adapter&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;After that, we need to access the &lt;strong&gt;Advanced Options&lt;/strong&gt; clicking on the bottom , and enable &lt;strong&gt;Port Forwarding&lt;/strong&gt; for our SSH connection. We click on the drop down button on the bottom of the window, and enter the &lt;strong&gt;Port Forwarding&lt;/strong&gt; menu clicking on it.&lt;/p&gt;
+
+&lt;p&gt;There, we press the upper right icon with a green cross to add a new rule. You must &lt;strong&gt;add a rule&lt;/strong&gt; similar to this one:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://diegocarba99.github.io/blog/assets/images/b001/002_port_rule.png&quot; alt=&quot;port rule&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Let’s clarify that rule. We are telling VirtualBox that every time a connection to address&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;127.0.0.1&lt;/code&gt; on port &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;8022&lt;/code&gt; is performed, to re-direct it to the Virtual Machines IP address (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;10.0.2.15&lt;/code&gt;). We also specify the destination port on the VM. In this case, since we want to access SHH, we must forward the connection to port 22.&lt;/p&gt;
+
+&lt;p class=&quot;notice&quot;&gt;Notice that the VMs address in the rule might not be your VMs IP address. If you want to check your IP address, you can run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$ hostname -I&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;We used the port 8022 because it will probably be an unused port on your Debian machine. This port number can be any port you like, but make sure you &lt;strong&gt;don’t overlap any other port in use&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;After all these steps, you should be able to &lt;strong&gt;connect&lt;/strong&gt; to your Debian machine &lt;strong&gt;through SSH&lt;/strong&gt;. You can access the virtual machine with the following command.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;shh &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 8022 user@127.0.0.1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;connection-with-rsa-and-custom-command&quot;&gt;Connection with RSA and custom command&lt;/h2&gt;
+&lt;p&gt;I have to admit that I usually don’t like to be &lt;strong&gt;repeating the same long command over and over again&lt;/strong&gt; for a task I know I’ll be doing repeatedly. This has led to aliasing or creating custom scripts to execute my most common tasks on my Linux machine. And connecting to my VM via SSH is one of those. So, in this chapter I’ll show you how to &lt;strong&gt;create a RSA key pair&lt;/strong&gt; to automatically connect to your VM without entering any passwords, and how to collapse all the process to executing a single command on your terminal.&lt;/p&gt;
+
+&lt;h3 id=&quot;rsa-key-pair&quot;&gt;RSA key pair&lt;/h3&gt;
+&lt;p&gt;SHH has a built-in feature, that let’s you create a pair of public/private keys to automate the connection through this protocol. We must follow these two simple steps:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;First we create the key pair using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh-keygen&lt;/code&gt; tool. In our case, we will be creating an RSA key pair with a key size of &lt;strong&gt;4096 B&lt;/strong&gt;. The algorithm is selected using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-t&lt;/code&gt; option and key size using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-b&lt;/code&gt; option. The default location to place the keys in it’s file will be the&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.ssh/&lt;/code&gt; directory on the users home directory, on a file name &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;id_rsa&lt;/code&gt;.  The command is the following:
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;ssh-keygen &lt;span class=&quot;nt&quot;&gt;-t&lt;/span&gt; rsa &lt;span class=&quot;nt&quot;&gt;-b&lt;/span&gt; 4096
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Next, we have to copy this key to our Debian machine. We can complete this step using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh-copy-id&lt;/code&gt; command. We must specify where we want to copy our key, so we’ll indicate th VMs address and port in the command:&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ssh-copy-id user1@127.0.0.1 &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 8022
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;With that, you know can access the Debian VM without entering any password on the command line.&lt;/p&gt;
+
+&lt;h3 id=&quot;custom-short-command&quot;&gt;Custom short command&lt;/h3&gt;
+&lt;p&gt;Since no password is now needed to connect via SSH to the Virtual Machine, I like to automate all the process by creating a custom script for this. In this case, the script will only contain a single line of code, but in other scenarios you might want to perform additional actions before connecting to the VM, such as starting it for example. In order to create a custom script, we just create a file on the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/bin&lt;/code&gt; directory. Remember to create the file with &lt;strong&gt;sudo permissions&lt;/strong&gt;. My file will be called &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh_galileo&lt;/code&gt; and contains the following:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+ssh &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 8022 user@127.0.0.1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Then, we give execution permissions to the file with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;chmod&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo chmod&lt;/span&gt; +x /bin/ssh_galileo
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;And done! After that, you just run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh_galileo&lt;/code&gt; and you can automatically connect through SHH to your Debian machine.&lt;/p&gt;</content><author><name>Diego Carballeda</name></author><category term="Computer Science" /><summary type="html">How to setup a virtual machine with SSH access</summary></entry><entry><title type="html">DUPLICATED</title><link href="https://diegocarba99.github.io/blog/computer%20science/Duplicated-(12.a-copia)/" rel="alternate" type="text/html" title="DUPLICATED" /><published>2021-02-11T00:00:00+01:00</published><updated>2021-02-11T00:00:00+01:00</updated><id>https://diegocarba99.github.io/blog/computer%20science/Duplicated%20(12.a%20copia)</id><content type="html" xml:base="https://diegocarba99.github.io/blog/computer%20science/Duplicated-(12.a-copia)/">&lt;p&gt;Do you ever try to set-up a Virtual Machine (VM) environment on your local PC and always get stuck? You managed that one time to set-up everything to work smoothly, but now you forgot how all the process went along. Don’t worry, we’ve all been there. In this blog post, I’ll try to help you set up a VM on VirtualBox and get everything up and running in a few steps.&lt;/p&gt;
+
+&lt;h1 id=&quot;creating-the-vm-instance&quot;&gt;Creating the VM instance&lt;/h1&gt;
+
+&lt;p&gt;First of all, we need a VM. There are several options out there, and your taste might be (probably will be) different from mine. Nevertheless, for the sake of simplicity, we’ll set up a &lt;strong&gt;Debian&lt;/strong&gt; machine and &lt;strong&gt;VirtualBox&lt;/strong&gt; will be our hypervisor of choice.&lt;/p&gt;
+
+&lt;p&gt;I’ve chosen Debian for two main reasons. First of all, because is a Linux distro, and many of you will be looking for a Linux VM since the majority of the computer users worldwide use Windows. It’s a shame, but that how it is. Secondly, because is a very friendly Linux distro to start with, since it’s community is huge. Several forums exist so that every possible doubt can be solved rapidly, or probably will be already solved.&lt;/p&gt;
+
+&lt;p&gt;Also, I’ve chosen VirtualBox as the hypervisor for the VM. I personally like free-to-use and open-source software, since I think it drives the community forward and doesn’t envy anything to paid products.&lt;/p&gt;
+
+&lt;p&gt;After deciding the environment well be using, it’s time to set up the VM. If you’ve already set up a VM, you can jump right to the next part. Otherwise, you can &lt;strong&gt;follow a simple tutorial&lt;/strong&gt; to set the VM up. There are plenty and very comprehensive tutorials out there on how to install any SO on a VirtualBox VM. Personally, &lt;strong&gt;I recommend this tutorial&lt;/strong&gt; from &lt;a href=&quot;https://www.brianlinkletter.com/installing-debian-linux-in-a-virtualbox-virtual-machine/&quot;&gt;Open-Source Network Simulators&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;enabling-shh-access&quot;&gt;Enabling SHH access&lt;/h2&gt;
+&lt;p&gt;Most of the times, all the work we do on a VM is &lt;strong&gt;accessing the terminal&lt;/strong&gt; and working on it. Since we  use VMs as tools, we often don’t customize the environment to our liking. That doesn’t happen in our host machine. We usually have &lt;strong&gt;custom terminal&lt;/strong&gt; fonts or commands, or personalized desktop environments to suit our tastes. A good way to avoid working directly on the Virtual Machine and using all our custom environment is to &lt;strong&gt;access the VM via SSH&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;First of all, install the SSH server packgae &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;openssh-server&lt;/code&gt; on the Debian virtual machine. Simply run the following:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get update &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;openshh-server
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If we want to use SSH though, we must configure VirtualBox so that we can establish a connection between our host (your actual machine) and guest (the VM) machines. First, we have to set up the network adapters on our VM. Network Adapters are like the physical network interfaces for our VM. Since we want both Internet connection from our VM, and also an SSH connection from our host machine, we’ll set up a NAT-like Network Adapter.&lt;/p&gt;
+
+&lt;p class=&quot;notice--warning&quot;&gt;The Virtual Machine must be turned off to perform these steps.&lt;/p&gt;
+
+&lt;p&gt;For that, head to the VM settings (the orange gearwheel). Select the &lt;strong&gt;Network&lt;/strong&gt; category. We’ll be only using the first Network Adapter. Select the &lt;strong&gt;NAT&lt;/strong&gt; option on the &lt;em&gt;Attached to&lt;/em&gt; menu.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://diegocarba99.github.io/blog/assets/images/b001/001_network_adapter_NAT.png&quot; alt=&quot;nat adapter&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;After that, we need to access the &lt;strong&gt;Advanced Options&lt;/strong&gt; clicking on the bottom , and enable &lt;strong&gt;Port Forwarding&lt;/strong&gt; for our SSH connection. We click on the drop down button on the bottom of the window, and enter the &lt;strong&gt;Port Forwarding&lt;/strong&gt; menu clicking on it.&lt;/p&gt;
+
+&lt;p&gt;There, we press the upper right icon with a green cross to add a new rule. You must &lt;strong&gt;add a rule&lt;/strong&gt; similar to this one:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://diegocarba99.github.io/blog/assets/images/b001/002_port_rule.png&quot; alt=&quot;port rule&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Let’s clarify that rule. We are telling VirtualBox that every time a connection to address&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;127.0.0.1&lt;/code&gt; on port &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;8022&lt;/code&gt; is performed, to re-direct it to the Virtual Machines IP address (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;10.0.2.15&lt;/code&gt;). We also specify the destination port on the VM. In this case, since we want to access SHH, we must forward the connection to port 22.&lt;/p&gt;
+
+&lt;p class=&quot;notice&quot;&gt;Notice that the VMs address in the rule might not be your VMs IP address. If you want to check your IP address, you can run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$ hostname -I&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;We used the port 8022 because it will probably be an unused port on your Debian machine. This port number can be any port you like, but make sure you &lt;strong&gt;don’t overlap any other port in use&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;After all these steps, you should be able to &lt;strong&gt;connect&lt;/strong&gt; to your Debian machine &lt;strong&gt;through SSH&lt;/strong&gt;. You can access the virtual machine with the following command.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;shh &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 8022 user@127.0.0.1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;connection-with-rsa-and-custom-command&quot;&gt;Connection with RSA and custom command&lt;/h2&gt;
+&lt;p&gt;I have to admit that I usually don’t like to be &lt;strong&gt;repeating the same long command over and over again&lt;/strong&gt; for a task I know I’ll be doing repeatedly. This has led to aliasing or creating custom scripts to execute my most common tasks on my Linux machine. And connecting to my VM via SSH is one of those. So, in this chapter I’ll show you how to &lt;strong&gt;create a RSA key pair&lt;/strong&gt; to automatically connect to your VM without entering any passwords, and how to collapse all the process to executing a single command on your terminal.&lt;/p&gt;
+
+&lt;h3 id=&quot;rsa-key-pair&quot;&gt;RSA key pair&lt;/h3&gt;
+&lt;p&gt;SHH has a built-in feature, that let’s you create a pair of public/private keys to automate the connection through this protocol. We must follow these two simple steps:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;First we create the key pair using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh-keygen&lt;/code&gt; tool. In our case, we will be creating an RSA key pair with a key size of &lt;strong&gt;4096 B&lt;/strong&gt;. The algorithm is selected using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-t&lt;/code&gt; option and key size using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-b&lt;/code&gt; option. The default location to place the keys in it’s file will be the&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.ssh/&lt;/code&gt; directory on the users home directory, on a file name &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;id_rsa&lt;/code&gt;.  The command is the following:
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;ssh-keygen &lt;span class=&quot;nt&quot;&gt;-t&lt;/span&gt; rsa &lt;span class=&quot;nt&quot;&gt;-b&lt;/span&gt; 4096
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Next, we have to copy this key to our Debian machine. We can complete this step using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh-copy-id&lt;/code&gt; command. We must specify where we want to copy our key, so we’ll indicate th VMs address and port in the command:&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ssh-copy-id user1@127.0.0.1 &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 8022
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;With that, you know can access the Debian VM without entering any password on the command line.&lt;/p&gt;
+
+&lt;h3 id=&quot;custom-short-command&quot;&gt;Custom short command&lt;/h3&gt;
+&lt;p&gt;Since no password is now needed to connect via SSH to the Virtual Machine, I like to automate all the process by creating a custom script for this. In this case, the script will only contain a single line of code, but in other scenarios you might want to perform additional actions before connecting to the VM, such as starting it for example. In order to create a custom script, we just create a file on the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/bin&lt;/code&gt; directory. Remember to create the file with &lt;strong&gt;sudo permissions&lt;/strong&gt;. My file will be called &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh_galileo&lt;/code&gt; and contains the following:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+ssh &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 8022 user@127.0.0.1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Then, we give execution permissions to the file with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;chmod&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo chmod&lt;/span&gt; +x /bin/ssh_galileo
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;And done! After that, you just run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh_galileo&lt;/code&gt; and you can automatically connect through SHH to your Debian machine.&lt;/p&gt;</content><author><name>Diego Carballeda</name></author><category term="Computer Science" /><summary type="html">How to setup a virtual machine with SSH access</summary></entry><entry><title type="html">DUPLICATED</title><link href="https://diegocarba99.github.io/blog/computer%20science/Duplicated-(13.a-copia)/" rel="alternate" type="text/html" title="DUPLICATED" /><published>2021-02-11T00:00:00+01:00</published><updated>2021-02-11T00:00:00+01:00</updated><id>https://diegocarba99.github.io/blog/computer%20science/Duplicated%20(13.a%20copia)</id><content type="html" xml:base="https://diegocarba99.github.io/blog/computer%20science/Duplicated-(13.a-copia)/">&lt;p&gt;Do you ever try to set-up a Virtual Machine (VM) environment on your local PC and always get stuck? You managed that one time to set-up everything to work smoothly, but now you forgot how all the process went along. Don’t worry, we’ve all been there. In this blog post, I’ll try to help you set up a VM on VirtualBox and get everything up and running in a few steps.&lt;/p&gt;
+
+&lt;h1 id=&quot;creating-the-vm-instance&quot;&gt;Creating the VM instance&lt;/h1&gt;
+
+&lt;p&gt;First of all, we need a VM. There are several options out there, and your taste might be (probably will be) different from mine. Nevertheless, for the sake of simplicity, we’ll set up a &lt;strong&gt;Debian&lt;/strong&gt; machine and &lt;strong&gt;VirtualBox&lt;/strong&gt; will be our hypervisor of choice.&lt;/p&gt;
+
+&lt;p&gt;I’ve chosen Debian for two main reasons. First of all, because is a Linux distro, and many of you will be looking for a Linux VM since the majority of the computer users worldwide use Windows. It’s a shame, but that how it is. Secondly, because is a very friendly Linux distro to start with, since it’s community is huge. Several forums exist so that every possible doubt can be solved rapidly, or probably will be already solved.&lt;/p&gt;
+
+&lt;p&gt;Also, I’ve chosen VirtualBox as the hypervisor for the VM. I personally like free-to-use and open-source software, since I think it drives the community forward and doesn’t envy anything to paid products.&lt;/p&gt;
+
+&lt;p&gt;After deciding the environment well be using, it’s time to set up the VM. If you’ve already set up a VM, you can jump right to the next part. Otherwise, you can &lt;strong&gt;follow a simple tutorial&lt;/strong&gt; to set the VM up. There are plenty and very comprehensive tutorials out there on how to install any SO on a VirtualBox VM. Personally, &lt;strong&gt;I recommend this tutorial&lt;/strong&gt; from &lt;a href=&quot;https://www.brianlinkletter.com/installing-debian-linux-in-a-virtualbox-virtual-machine/&quot;&gt;Open-Source Network Simulators&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;enabling-shh-access&quot;&gt;Enabling SHH access&lt;/h2&gt;
+&lt;p&gt;Most of the times, all the work we do on a VM is &lt;strong&gt;accessing the terminal&lt;/strong&gt; and working on it. Since we  use VMs as tools, we often don’t customize the environment to our liking. That doesn’t happen in our host machine. We usually have &lt;strong&gt;custom terminal&lt;/strong&gt; fonts or commands, or personalized desktop environments to suit our tastes. A good way to avoid working directly on the Virtual Machine and using all our custom environment is to &lt;strong&gt;access the VM via SSH&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;First of all, install the SSH server packgae &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;openssh-server&lt;/code&gt; on the Debian virtual machine. Simply run the following:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get update &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;openshh-server
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If we want to use SSH though, we must configure VirtualBox so that we can establish a connection between our host (your actual machine) and guest (the VM) machines. First, we have to set up the network adapters on our VM. Network Adapters are like the physical network interfaces for our VM. Since we want both Internet connection from our VM, and also an SSH connection from our host machine, we’ll set up a NAT-like Network Adapter.&lt;/p&gt;
+
+&lt;p class=&quot;notice--warning&quot;&gt;The Virtual Machine must be turned off to perform these steps.&lt;/p&gt;
+
+&lt;p&gt;For that, head to the VM settings (the orange gearwheel). Select the &lt;strong&gt;Network&lt;/strong&gt; category. We’ll be only using the first Network Adapter. Select the &lt;strong&gt;NAT&lt;/strong&gt; option on the &lt;em&gt;Attached to&lt;/em&gt; menu.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://diegocarba99.github.io/blog/assets/images/b001/001_network_adapter_NAT.png&quot; alt=&quot;nat adapter&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;After that, we need to access the &lt;strong&gt;Advanced Options&lt;/strong&gt; clicking on the bottom , and enable &lt;strong&gt;Port Forwarding&lt;/strong&gt; for our SSH connection. We click on the drop down button on the bottom of the window, and enter the &lt;strong&gt;Port Forwarding&lt;/strong&gt; menu clicking on it.&lt;/p&gt;
+
+&lt;p&gt;There, we press the upper right icon with a green cross to add a new rule. You must &lt;strong&gt;add a rule&lt;/strong&gt; similar to this one:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://diegocarba99.github.io/blog/assets/images/b001/002_port_rule.png&quot; alt=&quot;port rule&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Let’s clarify that rule. We are telling VirtualBox that every time a connection to address&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;127.0.0.1&lt;/code&gt; on port &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;8022&lt;/code&gt; is performed, to re-direct it to the Virtual Machines IP address (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;10.0.2.15&lt;/code&gt;). We also specify the destination port on the VM. In this case, since we want to access SHH, we must forward the connection to port 22.&lt;/p&gt;
+
+&lt;p class=&quot;notice&quot;&gt;Notice that the VMs address in the rule might not be your VMs IP address. If you want to check your IP address, you can run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$ hostname -I&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;We used the port 8022 because it will probably be an unused port on your Debian machine. This port number can be any port you like, but make sure you &lt;strong&gt;don’t overlap any other port in use&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;After all these steps, you should be able to &lt;strong&gt;connect&lt;/strong&gt; to your Debian machine &lt;strong&gt;through SSH&lt;/strong&gt;. You can access the virtual machine with the following command.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;shh &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 8022 user@127.0.0.1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;connection-with-rsa-and-custom-command&quot;&gt;Connection with RSA and custom command&lt;/h2&gt;
+&lt;p&gt;I have to admit that I usually don’t like to be &lt;strong&gt;repeating the same long command over and over again&lt;/strong&gt; for a task I know I’ll be doing repeatedly. This has led to aliasing or creating custom scripts to execute my most common tasks on my Linux machine. And connecting to my VM via SSH is one of those. So, in this chapter I’ll show you how to &lt;strong&gt;create a RSA key pair&lt;/strong&gt; to automatically connect to your VM without entering any passwords, and how to collapse all the process to executing a single command on your terminal.&lt;/p&gt;
+
+&lt;h3 id=&quot;rsa-key-pair&quot;&gt;RSA key pair&lt;/h3&gt;
+&lt;p&gt;SHH has a built-in feature, that let’s you create a pair of public/private keys to automate the connection through this protocol. We must follow these two simple steps:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;First we create the key pair using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh-keygen&lt;/code&gt; tool. In our case, we will be creating an RSA key pair with a key size of &lt;strong&gt;4096 B&lt;/strong&gt;. The algorithm is selected using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-t&lt;/code&gt; option and key size using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-b&lt;/code&gt; option. The default location to place the keys in it’s file will be the&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.ssh/&lt;/code&gt; directory on the users home directory, on a file name &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;id_rsa&lt;/code&gt;.  The command is the following:
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;ssh-keygen &lt;span class=&quot;nt&quot;&gt;-t&lt;/span&gt; rsa &lt;span class=&quot;nt&quot;&gt;-b&lt;/span&gt; 4096
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Next, we have to copy this key to our Debian machine. We can complete this step using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh-copy-id&lt;/code&gt; command. We must specify where we want to copy our key, so we’ll indicate th VMs address and port in the command:&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ssh-copy-id user1@127.0.0.1 &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 8022
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;With that, you know can access the Debian VM without entering any password on the command line.&lt;/p&gt;
+
+&lt;h3 id=&quot;custom-short-command&quot;&gt;Custom short command&lt;/h3&gt;
+&lt;p&gt;Since no password is now needed to connect via SSH to the Virtual Machine, I like to automate all the process by creating a custom script for this. In this case, the script will only contain a single line of code, but in other scenarios you might want to perform additional actions before connecting to the VM, such as starting it for example. In order to create a custom script, we just create a file on the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/bin&lt;/code&gt; directory. Remember to create the file with &lt;strong&gt;sudo permissions&lt;/strong&gt;. My file will be called &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh_galileo&lt;/code&gt; and contains the following:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+ssh &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 8022 user@127.0.0.1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Then, we give execution permissions to the file with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;chmod&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo chmod&lt;/span&gt; +x /bin/ssh_galileo
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;And done! After that, you just run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh_galileo&lt;/code&gt; and you can automatically connect through SHH to your Debian machine.&lt;/p&gt;</content><author><name>Diego Carballeda</name></author><category term="Computer Science" /><summary type="html">How to setup a virtual machine with SSH access</summary></entry><entry><title type="html">DUPLICATED</title><link href="https://diegocarba99.github.io/blog/computer%20science/Duplicated-(14.a-copia)/" rel="alternate" type="text/html" title="DUPLICATED" /><published>2021-02-11T00:00:00+01:00</published><updated>2021-02-11T00:00:00+01:00</updated><id>https://diegocarba99.github.io/blog/computer%20science/Duplicated%20(14.a%20copia)</id><content type="html" xml:base="https://diegocarba99.github.io/blog/computer%20science/Duplicated-(14.a-copia)/">&lt;p&gt;Do you ever try to set-up a Virtual Machine (VM) environment on your local PC and always get stuck? You managed that one time to set-up everything to work smoothly, but now you forgot how all the process went along. Don’t worry, we’ve all been there. In this blog post, I’ll try to help you set up a VM on VirtualBox and get everything up and running in a few steps.&lt;/p&gt;
+
+&lt;h1 id=&quot;creating-the-vm-instance&quot;&gt;Creating the VM instance&lt;/h1&gt;
+
+&lt;p&gt;First of all, we need a VM. There are several options out there, and your taste might be (probably will be) different from mine. Nevertheless, for the sake of simplicity, we’ll set up a &lt;strong&gt;Debian&lt;/strong&gt; machine and &lt;strong&gt;VirtualBox&lt;/strong&gt; will be our hypervisor of choice.&lt;/p&gt;
+
+&lt;p&gt;I’ve chosen Debian for two main reasons. First of all, because is a Linux distro, and many of you will be looking for a Linux VM since the majority of the computer users worldwide use Windows. It’s a shame, but that how it is. Secondly, because is a very friendly Linux distro to start with, since it’s community is huge. Several forums exist so that every possible doubt can be solved rapidly, or probably will be already solved.&lt;/p&gt;
+
+&lt;p&gt;Also, I’ve chosen VirtualBox as the hypervisor for the VM. I personally like free-to-use and open-source software, since I think it drives the community forward and doesn’t envy anything to paid products.&lt;/p&gt;
+
+&lt;p&gt;After deciding the environment well be using, it’s time to set up the VM. If you’ve already set up a VM, you can jump right to the next part. Otherwise, you can &lt;strong&gt;follow a simple tutorial&lt;/strong&gt; to set the VM up. There are plenty and very comprehensive tutorials out there on how to install any SO on a VirtualBox VM. Personally, &lt;strong&gt;I recommend this tutorial&lt;/strong&gt; from &lt;a href=&quot;https://www.brianlinkletter.com/installing-debian-linux-in-a-virtualbox-virtual-machine/&quot;&gt;Open-Source Network Simulators&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;enabling-shh-access&quot;&gt;Enabling SHH access&lt;/h2&gt;
+&lt;p&gt;Most of the times, all the work we do on a VM is &lt;strong&gt;accessing the terminal&lt;/strong&gt; and working on it. Since we  use VMs as tools, we often don’t customize the environment to our liking. That doesn’t happen in our host machine. We usually have &lt;strong&gt;custom terminal&lt;/strong&gt; fonts or commands, or personalized desktop environments to suit our tastes. A good way to avoid working directly on the Virtual Machine and using all our custom environment is to &lt;strong&gt;access the VM via SSH&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;First of all, install the SSH server packgae &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;openssh-server&lt;/code&gt; on the Debian virtual machine. Simply run the following:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get update &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;openshh-server
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If we want to use SSH though, we must configure VirtualBox so that we can establish a connection between our host (your actual machine) and guest (the VM) machines. First, we have to set up the network adapters on our VM. Network Adapters are like the physical network interfaces for our VM. Since we want both Internet connection from our VM, and also an SSH connection from our host machine, we’ll set up a NAT-like Network Adapter.&lt;/p&gt;
+
+&lt;p class=&quot;notice--warning&quot;&gt;The Virtual Machine must be turned off to perform these steps.&lt;/p&gt;
+
+&lt;p&gt;For that, head to the VM settings (the orange gearwheel). Select the &lt;strong&gt;Network&lt;/strong&gt; category. We’ll be only using the first Network Adapter. Select the &lt;strong&gt;NAT&lt;/strong&gt; option on the &lt;em&gt;Attached to&lt;/em&gt; menu.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://diegocarba99.github.io/blog/assets/images/b001/001_network_adapter_NAT.png&quot; alt=&quot;nat adapter&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;After that, we need to access the &lt;strong&gt;Advanced Options&lt;/strong&gt; clicking on the bottom , and enable &lt;strong&gt;Port Forwarding&lt;/strong&gt; for our SSH connection. We click on the drop down button on the bottom of the window, and enter the &lt;strong&gt;Port Forwarding&lt;/strong&gt; menu clicking on it.&lt;/p&gt;
+
+&lt;p&gt;There, we press the upper right icon with a green cross to add a new rule. You must &lt;strong&gt;add a rule&lt;/strong&gt; similar to this one:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://diegocarba99.github.io/blog/assets/images/b001/002_port_rule.png&quot; alt=&quot;port rule&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Let’s clarify that rule. We are telling VirtualBox that every time a connection to address&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;127.0.0.1&lt;/code&gt; on port &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;8022&lt;/code&gt; is performed, to re-direct it to the Virtual Machines IP address (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;10.0.2.15&lt;/code&gt;). We also specify the destination port on the VM. In this case, since we want to access SHH, we must forward the connection to port 22.&lt;/p&gt;
+
+&lt;p class=&quot;notice&quot;&gt;Notice that the VMs address in the rule might not be your VMs IP address. If you want to check your IP address, you can run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$ hostname -I&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;We used the port 8022 because it will probably be an unused port on your Debian machine. This port number can be any port you like, but make sure you &lt;strong&gt;don’t overlap any other port in use&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;After all these steps, you should be able to &lt;strong&gt;connect&lt;/strong&gt; to your Debian machine &lt;strong&gt;through SSH&lt;/strong&gt;. You can access the virtual machine with the following command.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;shh &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 8022 user@127.0.0.1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;connection-with-rsa-and-custom-command&quot;&gt;Connection with RSA and custom command&lt;/h2&gt;
+&lt;p&gt;I have to admit that I usually don’t like to be &lt;strong&gt;repeating the same long command over and over again&lt;/strong&gt; for a task I know I’ll be doing repeatedly. This has led to aliasing or creating custom scripts to execute my most common tasks on my Linux machine. And connecting to my VM via SSH is one of those. So, in this chapter I’ll show you how to &lt;strong&gt;create a RSA key pair&lt;/strong&gt; to automatically connect to your VM without entering any passwords, and how to collapse all the process to executing a single command on your terminal.&lt;/p&gt;
+
+&lt;h3 id=&quot;rsa-key-pair&quot;&gt;RSA key pair&lt;/h3&gt;
+&lt;p&gt;SHH has a built-in feature, that let’s you create a pair of public/private keys to automate the connection through this protocol. We must follow these two simple steps:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;First we create the key pair using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh-keygen&lt;/code&gt; tool. In our case, we will be creating an RSA key pair with a key size of &lt;strong&gt;4096 B&lt;/strong&gt;. The algorithm is selected using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-t&lt;/code&gt; option and key size using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-b&lt;/code&gt; option. The default location to place the keys in it’s file will be the&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.ssh/&lt;/code&gt; directory on the users home directory, on a file name &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;id_rsa&lt;/code&gt;.  The command is the following:
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;ssh-keygen &lt;span class=&quot;nt&quot;&gt;-t&lt;/span&gt; rsa &lt;span class=&quot;nt&quot;&gt;-b&lt;/span&gt; 4096
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Next, we have to copy this key to our Debian machine. We can complete this step using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh-copy-id&lt;/code&gt; command. We must specify where we want to copy our key, so we’ll indicate th VMs address and port in the command:&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ssh-copy-id user1@127.0.0.1 &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 8022
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;With that, you know can access the Debian VM without entering any password on the command line.&lt;/p&gt;
+
+&lt;h3 id=&quot;custom-short-command&quot;&gt;Custom short command&lt;/h3&gt;
+&lt;p&gt;Since no password is now needed to connect via SSH to the Virtual Machine, I like to automate all the process by creating a custom script for this. In this case, the script will only contain a single line of code, but in other scenarios you might want to perform additional actions before connecting to the VM, such as starting it for example. In order to create a custom script, we just create a file on the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/bin&lt;/code&gt; directory. Remember to create the file with &lt;strong&gt;sudo permissions&lt;/strong&gt;. My file will be called &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh_galileo&lt;/code&gt; and contains the following:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+ssh &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 8022 user@127.0.0.1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Then, we give execution permissions to the file with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;chmod&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo chmod&lt;/span&gt; +x /bin/ssh_galileo
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;And done! After that, you just run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh_galileo&lt;/code&gt; and you can automatically connect through SHH to your Debian machine.&lt;/p&gt;</content><author><name>Diego Carballeda</name></author><category term="Computer Science" /><summary type="html">How to setup a virtual machine with SSH access</summary></entry><entry><title type="html">DUPLICATED</title><link href="https://diegocarba99.github.io/blog/computer%20science/Duplicated-(3.a-copia)/" rel="alternate" type="text/html" title="DUPLICATED" /><published>2021-02-11T00:00:00+01:00</published><updated>2021-02-11T00:00:00+01:00</updated><id>https://diegocarba99.github.io/blog/computer%20science/Duplicated%20(3.a%20copia)</id><content type="html" xml:base="https://diegocarba99.github.io/blog/computer%20science/Duplicated-(3.a-copia)/">&lt;p&gt;Do you ever try to set-up a Virtual Machine (VM) environment on your local PC and always get stuck? You managed that one time to set-up everything to work smoothly, but now you forgot how all the process went along. Don’t worry, we’ve all been there. In this blog post, I’ll try to help you set up a VM on VirtualBox and get everything up and running in a few steps.&lt;/p&gt;
+
+&lt;h1 id=&quot;creating-the-vm-instance&quot;&gt;Creating the VM instance&lt;/h1&gt;
+
+&lt;p&gt;First of all, we need a VM. There are several options out there, and your taste might be (probably will be) different from mine. Nevertheless, for the sake of simplicity, we’ll set up a &lt;strong&gt;Debian&lt;/strong&gt; machine and &lt;strong&gt;VirtualBox&lt;/strong&gt; will be our hypervisor of choice.&lt;/p&gt;
+
+&lt;p&gt;I’ve chosen Debian for two main reasons. First of all, because is a Linux distro, and many of you will be looking for a Linux VM since the majority of the computer users worldwide use Windows. It’s a shame, but that how it is. Secondly, because is a very friendly Linux distro to start with, since it’s community is huge. Several forums exist so that every possible doubt can be solved rapidly, or probably will be already solved.&lt;/p&gt;
+
+&lt;p&gt;Also, I’ve chosen VirtualBox as the hypervisor for the VM. I personally like free-to-use and open-source software, since I think it drives the community forward and doesn’t envy anything to paid products.&lt;/p&gt;
+
+&lt;p&gt;After deciding the environment well be using, it’s time to set up the VM. If you’ve already set up a VM, you can jump right to the next part. Otherwise, you can &lt;strong&gt;follow a simple tutorial&lt;/strong&gt; to set the VM up. There are plenty and very comprehensive tutorials out there on how to install any SO on a VirtualBox VM. Personally, &lt;strong&gt;I recommend this tutorial&lt;/strong&gt; from &lt;a href=&quot;https://www.brianlinkletter.com/installing-debian-linux-in-a-virtualbox-virtual-machine/&quot;&gt;Open-Source Network Simulators&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;enabling-shh-access&quot;&gt;Enabling SHH access&lt;/h2&gt;
+&lt;p&gt;Most of the times, all the work we do on a VM is &lt;strong&gt;accessing the terminal&lt;/strong&gt; and working on it. Since we  use VMs as tools, we often don’t customize the environment to our liking. That doesn’t happen in our host machine. We usually have &lt;strong&gt;custom terminal&lt;/strong&gt; fonts or commands, or personalized desktop environments to suit our tastes. A good way to avoid working directly on the Virtual Machine and using all our custom environment is to &lt;strong&gt;access the VM via SSH&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;First of all, install the SSH server packgae &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;openssh-server&lt;/code&gt; on the Debian virtual machine. Simply run the following:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get update &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;openshh-server
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If we want to use SSH though, we must configure VirtualBox so that we can establish a connection between our host (your actual machine) and guest (the VM) machines. First, we have to set up the network adapters on our VM. Network Adapters are like the physical network interfaces for our VM. Since we want both Internet connection from our VM, and also an SSH connection from our host machine, we’ll set up a NAT-like Network Adapter.&lt;/p&gt;
+
+&lt;p class=&quot;notice--warning&quot;&gt;The Virtual Machine must be turned off to perform these steps.&lt;/p&gt;
+
+&lt;p&gt;For that, head to the VM settings (the orange gearwheel). Select the &lt;strong&gt;Network&lt;/strong&gt; category. We’ll be only using the first Network Adapter. Select the &lt;strong&gt;NAT&lt;/strong&gt; option on the &lt;em&gt;Attached to&lt;/em&gt; menu.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://diegocarba99.github.io/blog/assets/images/b001/001_network_adapter_NAT.png&quot; alt=&quot;nat adapter&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;After that, we need to access the &lt;strong&gt;Advanced Options&lt;/strong&gt; clicking on the bottom , and enable &lt;strong&gt;Port Forwarding&lt;/strong&gt; for our SSH connection. We click on the drop down button on the bottom of the window, and enter the &lt;strong&gt;Port Forwarding&lt;/strong&gt; menu clicking on it.&lt;/p&gt;
+
+&lt;p&gt;There, we press the upper right icon with a green cross to add a new rule. You must &lt;strong&gt;add a rule&lt;/strong&gt; similar to this one:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://diegocarba99.github.io/blog/assets/images/b001/002_port_rule.png&quot; alt=&quot;port rule&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Let’s clarify that rule. We are telling VirtualBox that every time a connection to address&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;127.0.0.1&lt;/code&gt; on port &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;8022&lt;/code&gt; is performed, to re-direct it to the Virtual Machines IP address (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;10.0.2.15&lt;/code&gt;). We also specify the destination port on the VM. In this case, since we want to access SHH, we must forward the connection to port 22.&lt;/p&gt;
+
+&lt;p class=&quot;notice&quot;&gt;Notice that the VMs address in the rule might not be your VMs IP address. If you want to check your IP address, you can run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$ hostname -I&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;We used the port 8022 because it will probably be an unused port on your Debian machine. This port number can be any port you like, but make sure you &lt;strong&gt;don’t overlap any other port in use&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;After all these steps, you should be able to &lt;strong&gt;connect&lt;/strong&gt; to your Debian machine &lt;strong&gt;through SSH&lt;/strong&gt;. You can access the virtual machine with the following command.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;shh &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 8022 user@127.0.0.1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;connection-with-rsa-and-custom-command&quot;&gt;Connection with RSA and custom command&lt;/h2&gt;
+&lt;p&gt;I have to admit that I usually don’t like to be &lt;strong&gt;repeating the same long command over and over again&lt;/strong&gt; for a task I know I’ll be doing repeatedly. This has led to aliasing or creating custom scripts to execute my most common tasks on my Linux machine. And connecting to my VM via SSH is one of those. So, in this chapter I’ll show you how to &lt;strong&gt;create a RSA key pair&lt;/strong&gt; to automatically connect to your VM without entering any passwords, and how to collapse all the process to executing a single command on your terminal.&lt;/p&gt;
+
+&lt;h3 id=&quot;rsa-key-pair&quot;&gt;RSA key pair&lt;/h3&gt;
+&lt;p&gt;SHH has a built-in feature, that let’s you create a pair of public/private keys to automate the connection through this protocol. We must follow these two simple steps:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;First we create the key pair using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh-keygen&lt;/code&gt; tool. In our case, we will be creating an RSA key pair with a key size of &lt;strong&gt;4096 B&lt;/strong&gt;. The algorithm is selected using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-t&lt;/code&gt; option and key size using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-b&lt;/code&gt; option. The default location to place the keys in it’s file will be the&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.ssh/&lt;/code&gt; directory on the users home directory, on a file name &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;id_rsa&lt;/code&gt;.  The command is the following:
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;ssh-keygen &lt;span class=&quot;nt&quot;&gt;-t&lt;/span&gt; rsa &lt;span class=&quot;nt&quot;&gt;-b&lt;/span&gt; 4096
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Next, we have to copy this key to our Debian machine. We can complete this step using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh-copy-id&lt;/code&gt; command. We must specify where we want to copy our key, so we’ll indicate th VMs address and port in the command:&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ssh-copy-id user1@127.0.0.1 &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 8022
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;With that, you know can access the Debian VM without entering any password on the command line.&lt;/p&gt;
+
+&lt;h3 id=&quot;custom-short-command&quot;&gt;Custom short command&lt;/h3&gt;
+&lt;p&gt;Since no password is now needed to connect via SSH to the Virtual Machine, I like to automate all the process by creating a custom script for this. In this case, the script will only contain a single line of code, but in other scenarios you might want to perform additional actions before connecting to the VM, such as starting it for example. In order to create a custom script, we just create a file on the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/bin&lt;/code&gt; directory. Remember to create the file with &lt;strong&gt;sudo permissions&lt;/strong&gt;. My file will be called &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh_galileo&lt;/code&gt; and contains the following:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+ssh &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 8022 user@127.0.0.1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Then, we give execution permissions to the file with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;chmod&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo chmod&lt;/span&gt; +x /bin/ssh_galileo
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;And done! After that, you just run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh_galileo&lt;/code&gt; and you can automatically connect through SHH to your Debian machine.&lt;/p&gt;</content><author><name>Diego Carballeda</name></author><category term="Computer Science" /><summary type="html">How to setup a virtual machine with SSH access</summary></entry><entry><title type="html">DUPLICATED</title><link href="https://diegocarba99.github.io/blog/computer%20science/Duplicated-(4.a-copia)/" rel="alternate" type="text/html" title="DUPLICATED" /><published>2021-02-11T00:00:00+01:00</published><updated>2021-02-11T00:00:00+01:00</updated><id>https://diegocarba99.github.io/blog/computer%20science/Duplicated%20(4.a%20copia)</id><content type="html" xml:base="https://diegocarba99.github.io/blog/computer%20science/Duplicated-(4.a-copia)/">&lt;p&gt;Do you ever try to set-up a Virtual Machine (VM) environment on your local PC and always get stuck? You managed that one time to set-up everything to work smoothly, but now you forgot how all the process went along. Don’t worry, we’ve all been there. In this blog post, I’ll try to help you set up a VM on VirtualBox and get everything up and running in a few steps.&lt;/p&gt;
+
+&lt;h1 id=&quot;creating-the-vm-instance&quot;&gt;Creating the VM instance&lt;/h1&gt;
+
+&lt;p&gt;First of all, we need a VM. There are several options out there, and your taste might be (probably will be) different from mine. Nevertheless, for the sake of simplicity, we’ll set up a &lt;strong&gt;Debian&lt;/strong&gt; machine and &lt;strong&gt;VirtualBox&lt;/strong&gt; will be our hypervisor of choice.&lt;/p&gt;
+
+&lt;p&gt;I’ve chosen Debian for two main reasons. First of all, because is a Linux distro, and many of you will be looking for a Linux VM since the majority of the computer users worldwide use Windows. It’s a shame, but that how it is. Secondly, because is a very friendly Linux distro to start with, since it’s community is huge. Several forums exist so that every possible doubt can be solved rapidly, or probably will be already solved.&lt;/p&gt;
+
+&lt;p&gt;Also, I’ve chosen VirtualBox as the hypervisor for the VM. I personally like free-to-use and open-source software, since I think it drives the community forward and doesn’t envy anything to paid products.&lt;/p&gt;
+
+&lt;p&gt;After deciding the environment well be using, it’s time to set up the VM. If you’ve already set up a VM, you can jump right to the next part. Otherwise, you can &lt;strong&gt;follow a simple tutorial&lt;/strong&gt; to set the VM up. There are plenty and very comprehensive tutorials out there on how to install any SO on a VirtualBox VM. Personally, &lt;strong&gt;I recommend this tutorial&lt;/strong&gt; from &lt;a href=&quot;https://www.brianlinkletter.com/installing-debian-linux-in-a-virtualbox-virtual-machine/&quot;&gt;Open-Source Network Simulators&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;enabling-shh-access&quot;&gt;Enabling SHH access&lt;/h2&gt;
+&lt;p&gt;Most of the times, all the work we do on a VM is &lt;strong&gt;accessing the terminal&lt;/strong&gt; and working on it. Since we  use VMs as tools, we often don’t customize the environment to our liking. That doesn’t happen in our host machine. We usually have &lt;strong&gt;custom terminal&lt;/strong&gt; fonts or commands, or personalized desktop environments to suit our tastes. A good way to avoid working directly on the Virtual Machine and using all our custom environment is to &lt;strong&gt;access the VM via SSH&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;First of all, install the SSH server packgae &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;openssh-server&lt;/code&gt; on the Debian virtual machine. Simply run the following:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get update &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;openshh-server
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If we want to use SSH though, we must configure VirtualBox so that we can establish a connection between our host (your actual machine) and guest (the VM) machines. First, we have to set up the network adapters on our VM. Network Adapters are like the physical network interfaces for our VM. Since we want both Internet connection from our VM, and also an SSH connection from our host machine, we’ll set up a NAT-like Network Adapter.&lt;/p&gt;
+
+&lt;p class=&quot;notice--warning&quot;&gt;The Virtual Machine must be turned off to perform these steps.&lt;/p&gt;
+
+&lt;p&gt;For that, head to the VM settings (the orange gearwheel). Select the &lt;strong&gt;Network&lt;/strong&gt; category. We’ll be only using the first Network Adapter. Select the &lt;strong&gt;NAT&lt;/strong&gt; option on the &lt;em&gt;Attached to&lt;/em&gt; menu.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://diegocarba99.github.io/blog/assets/images/b001/001_network_adapter_NAT.png&quot; alt=&quot;nat adapter&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;After that, we need to access the &lt;strong&gt;Advanced Options&lt;/strong&gt; clicking on the bottom , and enable &lt;strong&gt;Port Forwarding&lt;/strong&gt; for our SSH connection. We click on the drop down button on the bottom of the window, and enter the &lt;strong&gt;Port Forwarding&lt;/strong&gt; menu clicking on it.&lt;/p&gt;
+
+&lt;p&gt;There, we press the upper right icon with a green cross to add a new rule. You must &lt;strong&gt;add a rule&lt;/strong&gt; similar to this one:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://diegocarba99.github.io/blog/assets/images/b001/002_port_rule.png&quot; alt=&quot;port rule&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Let’s clarify that rule. We are telling VirtualBox that every time a connection to address&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;127.0.0.1&lt;/code&gt; on port &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;8022&lt;/code&gt; is performed, to re-direct it to the Virtual Machines IP address (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;10.0.2.15&lt;/code&gt;). We also specify the destination port on the VM. In this case, since we want to access SHH, we must forward the connection to port 22.&lt;/p&gt;
+
+&lt;p class=&quot;notice&quot;&gt;Notice that the VMs address in the rule might not be your VMs IP address. If you want to check your IP address, you can run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$ hostname -I&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;We used the port 8022 because it will probably be an unused port on your Debian machine. This port number can be any port you like, but make sure you &lt;strong&gt;don’t overlap any other port in use&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;After all these steps, you should be able to &lt;strong&gt;connect&lt;/strong&gt; to your Debian machine &lt;strong&gt;through SSH&lt;/strong&gt;. You can access the virtual machine with the following command.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;shh &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 8022 user@127.0.0.1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;connection-with-rsa-and-custom-command&quot;&gt;Connection with RSA and custom command&lt;/h2&gt;
+&lt;p&gt;I have to admit that I usually don’t like to be &lt;strong&gt;repeating the same long command over and over again&lt;/strong&gt; for a task I know I’ll be doing repeatedly. This has led to aliasing or creating custom scripts to execute my most common tasks on my Linux machine. And connecting to my VM via SSH is one of those. So, in this chapter I’ll show you how to &lt;strong&gt;create a RSA key pair&lt;/strong&gt; to automatically connect to your VM without entering any passwords, and how to collapse all the process to executing a single command on your terminal.&lt;/p&gt;
+
+&lt;h3 id=&quot;rsa-key-pair&quot;&gt;RSA key pair&lt;/h3&gt;
+&lt;p&gt;SHH has a built-in feature, that let’s you create a pair of public/private keys to automate the connection through this protocol. We must follow these two simple steps:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;First we create the key pair using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh-keygen&lt;/code&gt; tool. In our case, we will be creating an RSA key pair with a key size of &lt;strong&gt;4096 B&lt;/strong&gt;. The algorithm is selected using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-t&lt;/code&gt; option and key size using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-b&lt;/code&gt; option. The default location to place the keys in it’s file will be the&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.ssh/&lt;/code&gt; directory on the users home directory, on a file name &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;id_rsa&lt;/code&gt;.  The command is the following:
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;ssh-keygen &lt;span class=&quot;nt&quot;&gt;-t&lt;/span&gt; rsa &lt;span class=&quot;nt&quot;&gt;-b&lt;/span&gt; 4096
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Next, we have to copy this key to our Debian machine. We can complete this step using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh-copy-id&lt;/code&gt; command. We must specify where we want to copy our key, so we’ll indicate th VMs address and port in the command:&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ssh-copy-id user1@127.0.0.1 &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 8022
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;With that, you know can access the Debian VM without entering any password on the command line.&lt;/p&gt;
+
+&lt;h3 id=&quot;custom-short-command&quot;&gt;Custom short command&lt;/h3&gt;
+&lt;p&gt;Since no password is now needed to connect via SSH to the Virtual Machine, I like to automate all the process by creating a custom script for this. In this case, the script will only contain a single line of code, but in other scenarios you might want to perform additional actions before connecting to the VM, such as starting it for example. In order to create a custom script, we just create a file on the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/bin&lt;/code&gt; directory. Remember to create the file with &lt;strong&gt;sudo permissions&lt;/strong&gt;. My file will be called &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh_galileo&lt;/code&gt; and contains the following:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+ssh &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 8022 user@127.0.0.1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Then, we give execution permissions to the file with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;chmod&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo chmod&lt;/span&gt; +x /bin/ssh_galileo
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;And done! After that, you just run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh_galileo&lt;/code&gt; and you can automatically connect through SHH to your Debian machine.&lt;/p&gt;</content><author><name>Diego Carballeda</name></author><category term="Computer Science" /><summary type="html">How to setup a virtual machine with SSH access</summary></entry><entry><title type="html">DUPLICATED</title><link href="https://diegocarba99.github.io/blog/computer%20science/Duplicated-(5.a-copia)/" rel="alternate" type="text/html" title="DUPLICATED" /><published>2021-02-11T00:00:00+01:00</published><updated>2021-02-11T00:00:00+01:00</updated><id>https://diegocarba99.github.io/blog/computer%20science/Duplicated%20(5.a%20copia)</id><content type="html" xml:base="https://diegocarba99.github.io/blog/computer%20science/Duplicated-(5.a-copia)/">&lt;p&gt;Do you ever try to set-up a Virtual Machine (VM) environment on your local PC and always get stuck? You managed that one time to set-up everything to work smoothly, but now you forgot how all the process went along. Don’t worry, we’ve all been there. In this blog post, I’ll try to help you set up a VM on VirtualBox and get everything up and running in a few steps.&lt;/p&gt;
+
+&lt;h1 id=&quot;creating-the-vm-instance&quot;&gt;Creating the VM instance&lt;/h1&gt;
+
+&lt;p&gt;First of all, we need a VM. There are several options out there, and your taste might be (probably will be) different from mine. Nevertheless, for the sake of simplicity, we’ll set up a &lt;strong&gt;Debian&lt;/strong&gt; machine and &lt;strong&gt;VirtualBox&lt;/strong&gt; will be our hypervisor of choice.&lt;/p&gt;
+
+&lt;p&gt;I’ve chosen Debian for two main reasons. First of all, because is a Linux distro, and many of you will be looking for a Linux VM since the majority of the computer users worldwide use Windows. It’s a shame, but that how it is. Secondly, because is a very friendly Linux distro to start with, since it’s community is huge. Several forums exist so that every possible doubt can be solved rapidly, or probably will be already solved.&lt;/p&gt;
+
+&lt;p&gt;Also, I’ve chosen VirtualBox as the hypervisor for the VM. I personally like free-to-use and open-source software, since I think it drives the community forward and doesn’t envy anything to paid products.&lt;/p&gt;
+
+&lt;p&gt;After deciding the environment well be using, it’s time to set up the VM. If you’ve already set up a VM, you can jump right to the next part. Otherwise, you can &lt;strong&gt;follow a simple tutorial&lt;/strong&gt; to set the VM up. There are plenty and very comprehensive tutorials out there on how to install any SO on a VirtualBox VM. Personally, &lt;strong&gt;I recommend this tutorial&lt;/strong&gt; from &lt;a href=&quot;https://www.brianlinkletter.com/installing-debian-linux-in-a-virtualbox-virtual-machine/&quot;&gt;Open-Source Network Simulators&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;enabling-shh-access&quot;&gt;Enabling SHH access&lt;/h2&gt;
+&lt;p&gt;Most of the times, all the work we do on a VM is &lt;strong&gt;accessing the terminal&lt;/strong&gt; and working on it. Since we  use VMs as tools, we often don’t customize the environment to our liking. That doesn’t happen in our host machine. We usually have &lt;strong&gt;custom terminal&lt;/strong&gt; fonts or commands, or personalized desktop environments to suit our tastes. A good way to avoid working directly on the Virtual Machine and using all our custom environment is to &lt;strong&gt;access the VM via SSH&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;First of all, install the SSH server packgae &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;openssh-server&lt;/code&gt; on the Debian virtual machine. Simply run the following:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get update &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;openshh-server
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If we want to use SSH though, we must configure VirtualBox so that we can establish a connection between our host (your actual machine) and guest (the VM) machines. First, we have to set up the network adapters on our VM. Network Adapters are like the physical network interfaces for our VM. Since we want both Internet connection from our VM, and also an SSH connection from our host machine, we’ll set up a NAT-like Network Adapter.&lt;/p&gt;
+
+&lt;p class=&quot;notice--warning&quot;&gt;The Virtual Machine must be turned off to perform these steps.&lt;/p&gt;
+
+&lt;p&gt;For that, head to the VM settings (the orange gearwheel). Select the &lt;strong&gt;Network&lt;/strong&gt; category. We’ll be only using the first Network Adapter. Select the &lt;strong&gt;NAT&lt;/strong&gt; option on the &lt;em&gt;Attached to&lt;/em&gt; menu.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://diegocarba99.github.io/blog/assets/images/b001/001_network_adapter_NAT.png&quot; alt=&quot;nat adapter&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;After that, we need to access the &lt;strong&gt;Advanced Options&lt;/strong&gt; clicking on the bottom , and enable &lt;strong&gt;Port Forwarding&lt;/strong&gt; for our SSH connection. We click on the drop down button on the bottom of the window, and enter the &lt;strong&gt;Port Forwarding&lt;/strong&gt; menu clicking on it.&lt;/p&gt;
+
+&lt;p&gt;There, we press the upper right icon with a green cross to add a new rule. You must &lt;strong&gt;add a rule&lt;/strong&gt; similar to this one:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://diegocarba99.github.io/blog/assets/images/b001/002_port_rule.png&quot; alt=&quot;port rule&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Let’s clarify that rule. We are telling VirtualBox that every time a connection to address&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;127.0.0.1&lt;/code&gt; on port &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;8022&lt;/code&gt; is performed, to re-direct it to the Virtual Machines IP address (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;10.0.2.15&lt;/code&gt;). We also specify the destination port on the VM. In this case, since we want to access SHH, we must forward the connection to port 22.&lt;/p&gt;
+
+&lt;p class=&quot;notice&quot;&gt;Notice that the VMs address in the rule might not be your VMs IP address. If you want to check your IP address, you can run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$ hostname -I&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;We used the port 8022 because it will probably be an unused port on your Debian machine. This port number can be any port you like, but make sure you &lt;strong&gt;don’t overlap any other port in use&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;After all these steps, you should be able to &lt;strong&gt;connect&lt;/strong&gt; to your Debian machine &lt;strong&gt;through SSH&lt;/strong&gt;. You can access the virtual machine with the following command.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;shh &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 8022 user@127.0.0.1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;connection-with-rsa-and-custom-command&quot;&gt;Connection with RSA and custom command&lt;/h2&gt;
+&lt;p&gt;I have to admit that I usually don’t like to be &lt;strong&gt;repeating the same long command over and over again&lt;/strong&gt; for a task I know I’ll be doing repeatedly. This has led to aliasing or creating custom scripts to execute my most common tasks on my Linux machine. And connecting to my VM via SSH is one of those. So, in this chapter I’ll show you how to &lt;strong&gt;create a RSA key pair&lt;/strong&gt; to automatically connect to your VM without entering any passwords, and how to collapse all the process to executing a single command on your terminal.&lt;/p&gt;
+
+&lt;h3 id=&quot;rsa-key-pair&quot;&gt;RSA key pair&lt;/h3&gt;
+&lt;p&gt;SHH has a built-in feature, that let’s you create a pair of public/private keys to automate the connection through this protocol. We must follow these two simple steps:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;First we create the key pair using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh-keygen&lt;/code&gt; tool. In our case, we will be creating an RSA key pair with a key size of &lt;strong&gt;4096 B&lt;/strong&gt;. The algorithm is selected using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-t&lt;/code&gt; option and key size using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-b&lt;/code&gt; option. The default location to place the keys in it’s file will be the&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.ssh/&lt;/code&gt; directory on the users home directory, on a file name &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;id_rsa&lt;/code&gt;.  The command is the following:
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;ssh-keygen &lt;span class=&quot;nt&quot;&gt;-t&lt;/span&gt; rsa &lt;span class=&quot;nt&quot;&gt;-b&lt;/span&gt; 4096
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Next, we have to copy this key to our Debian machine. We can complete this step using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh-copy-id&lt;/code&gt; command. We must specify where we want to copy our key, so we’ll indicate th VMs address and port in the command:&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ssh-copy-id user1@127.0.0.1 &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 8022
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;With that, you know can access the Debian VM without entering any password on the command line.&lt;/p&gt;
+
+&lt;h3 id=&quot;custom-short-command&quot;&gt;Custom short command&lt;/h3&gt;
+&lt;p&gt;Since no password is now needed to connect via SSH to the Virtual Machine, I like to automate all the process by creating a custom script for this. In this case, the script will only contain a single line of code, but in other scenarios you might want to perform additional actions before connecting to the VM, such as starting it for example. In order to create a custom script, we just create a file on the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/bin&lt;/code&gt; directory. Remember to create the file with &lt;strong&gt;sudo permissions&lt;/strong&gt;. My file will be called &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh_galileo&lt;/code&gt; and contains the following:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+ssh &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 8022 user@127.0.0.1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Then, we give execution permissions to the file with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;chmod&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo chmod&lt;/span&gt; +x /bin/ssh_galileo
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;And done! After that, you just run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh_galileo&lt;/code&gt; and you can automatically connect through SHH to your Debian machine.&lt;/p&gt;</content><author><name>Diego Carballeda</name></author><category term="Computer Science" /><summary type="html">How to setup a virtual machine with SSH access</summary></entry><entry><title type="html">DUPLICATED</title><link href="https://diegocarba99.github.io/blog/computer%20science/Duplicated-(6.a-copia)/" rel="alternate" type="text/html" title="DUPLICATED" /><published>2021-02-11T00:00:00+01:00</published><updated>2021-02-11T00:00:00+01:00</updated><id>https://diegocarba99.github.io/blog/computer%20science/Duplicated%20(6.a%20copia)</id><content type="html" xml:base="https://diegocarba99.github.io/blog/computer%20science/Duplicated-(6.a-copia)/">&lt;p&gt;Do you ever try to set-up a Virtual Machine (VM) environment on your local PC and always get stuck? You managed that one time to set-up everything to work smoothly, but now you forgot how all the process went along. Don’t worry, we’ve all been there. In this blog post, I’ll try to help you set up a VM on VirtualBox and get everything up and running in a few steps.&lt;/p&gt;
+
+&lt;h1 id=&quot;creating-the-vm-instance&quot;&gt;Creating the VM instance&lt;/h1&gt;
+
+&lt;p&gt;First of all, we need a VM. There are several options out there, and your taste might be (probably will be) different from mine. Nevertheless, for the sake of simplicity, we’ll set up a &lt;strong&gt;Debian&lt;/strong&gt; machine and &lt;strong&gt;VirtualBox&lt;/strong&gt; will be our hypervisor of choice.&lt;/p&gt;
+
+&lt;p&gt;I’ve chosen Debian for two main reasons. First of all, because is a Linux distro, and many of you will be looking for a Linux VM since the majority of the computer users worldwide use Windows. It’s a shame, but that how it is. Secondly, because is a very friendly Linux distro to start with, since it’s community is huge. Several forums exist so that every possible doubt can be solved rapidly, or probably will be already solved.&lt;/p&gt;
+
+&lt;p&gt;Also, I’ve chosen VirtualBox as the hypervisor for the VM. I personally like free-to-use and open-source software, since I think it drives the community forward and doesn’t envy anything to paid products.&lt;/p&gt;
+
+&lt;p&gt;After deciding the environment well be using, it’s time to set up the VM. If you’ve already set up a VM, you can jump right to the next part. Otherwise, you can &lt;strong&gt;follow a simple tutorial&lt;/strong&gt; to set the VM up. There are plenty and very comprehensive tutorials out there on how to install any SO on a VirtualBox VM. Personally, &lt;strong&gt;I recommend this tutorial&lt;/strong&gt; from &lt;a href=&quot;https://www.brianlinkletter.com/installing-debian-linux-in-a-virtualbox-virtual-machine/&quot;&gt;Open-Source Network Simulators&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;enabling-shh-access&quot;&gt;Enabling SHH access&lt;/h2&gt;
+&lt;p&gt;Most of the times, all the work we do on a VM is &lt;strong&gt;accessing the terminal&lt;/strong&gt; and working on it. Since we  use VMs as tools, we often don’t customize the environment to our liking. That doesn’t happen in our host machine. We usually have &lt;strong&gt;custom terminal&lt;/strong&gt; fonts or commands, or personalized desktop environments to suit our tastes. A good way to avoid working directly on the Virtual Machine and using all our custom environment is to &lt;strong&gt;access the VM via SSH&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;First of all, install the SSH server packgae &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;openssh-server&lt;/code&gt; on the Debian virtual machine. Simply run the following:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get update &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;openshh-server
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If we want to use SSH though, we must configure VirtualBox so that we can establish a connection between our host (your actual machine) and guest (the VM) machines. First, we have to set up the network adapters on our VM. Network Adapters are like the physical network interfaces for our VM. Since we want both Internet connection from our VM, and also an SSH connection from our host machine, we’ll set up a NAT-like Network Adapter.&lt;/p&gt;
+
+&lt;p class=&quot;notice--warning&quot;&gt;The Virtual Machine must be turned off to perform these steps.&lt;/p&gt;
+
+&lt;p&gt;For that, head to the VM settings (the orange gearwheel). Select the &lt;strong&gt;Network&lt;/strong&gt; category. We’ll be only using the first Network Adapter. Select the &lt;strong&gt;NAT&lt;/strong&gt; option on the &lt;em&gt;Attached to&lt;/em&gt; menu.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://diegocarba99.github.io/blog/assets/images/b001/001_network_adapter_NAT.png&quot; alt=&quot;nat adapter&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;After that, we need to access the &lt;strong&gt;Advanced Options&lt;/strong&gt; clicking on the bottom , and enable &lt;strong&gt;Port Forwarding&lt;/strong&gt; for our SSH connection. We click on the drop down button on the bottom of the window, and enter the &lt;strong&gt;Port Forwarding&lt;/strong&gt; menu clicking on it.&lt;/p&gt;
+
+&lt;p&gt;There, we press the upper right icon with a green cross to add a new rule. You must &lt;strong&gt;add a rule&lt;/strong&gt; similar to this one:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://diegocarba99.github.io/blog/assets/images/b001/002_port_rule.png&quot; alt=&quot;port rule&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Let’s clarify that rule. We are telling VirtualBox that every time a connection to address&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;127.0.0.1&lt;/code&gt; on port &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;8022&lt;/code&gt; is performed, to re-direct it to the Virtual Machines IP address (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;10.0.2.15&lt;/code&gt;). We also specify the destination port on the VM. In this case, since we want to access SHH, we must forward the connection to port 22.&lt;/p&gt;
+
+&lt;p class=&quot;notice&quot;&gt;Notice that the VMs address in the rule might not be your VMs IP address. If you want to check your IP address, you can run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$ hostname -I&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;We used the port 8022 because it will probably be an unused port on your Debian machine. This port number can be any port you like, but make sure you &lt;strong&gt;don’t overlap any other port in use&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;After all these steps, you should be able to &lt;strong&gt;connect&lt;/strong&gt; to your Debian machine &lt;strong&gt;through SSH&lt;/strong&gt;. You can access the virtual machine with the following command.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;shh &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 8022 user@127.0.0.1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;connection-with-rsa-and-custom-command&quot;&gt;Connection with RSA and custom command&lt;/h2&gt;
+&lt;p&gt;I have to admit that I usually don’t like to be &lt;strong&gt;repeating the same long command over and over again&lt;/strong&gt; for a task I know I’ll be doing repeatedly. This has led to aliasing or creating custom scripts to execute my most common tasks on my Linux machine. And connecting to my VM via SSH is one of those. So, in this chapter I’ll show you how to &lt;strong&gt;create a RSA key pair&lt;/strong&gt; to automatically connect to your VM without entering any passwords, and how to collapse all the process to executing a single command on your terminal.&lt;/p&gt;
+
+&lt;h3 id=&quot;rsa-key-pair&quot;&gt;RSA key pair&lt;/h3&gt;
+&lt;p&gt;SHH has a built-in feature, that let’s you create a pair of public/private keys to automate the connection through this protocol. We must follow these two simple steps:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;First we create the key pair using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh-keygen&lt;/code&gt; tool. In our case, we will be creating an RSA key pair with a key size of &lt;strong&gt;4096 B&lt;/strong&gt;. The algorithm is selected using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-t&lt;/code&gt; option and key size using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-b&lt;/code&gt; option. The default location to place the keys in it’s file will be the&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.ssh/&lt;/code&gt; directory on the users home directory, on a file name &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;id_rsa&lt;/code&gt;.  The command is the following:
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;ssh-keygen &lt;span class=&quot;nt&quot;&gt;-t&lt;/span&gt; rsa &lt;span class=&quot;nt&quot;&gt;-b&lt;/span&gt; 4096
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Next, we have to copy this key to our Debian machine. We can complete this step using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh-copy-id&lt;/code&gt; command. We must specify where we want to copy our key, so we’ll indicate th VMs address and port in the command:&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ssh-copy-id user1@127.0.0.1 &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 8022
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;With that, you know can access the Debian VM without entering any password on the command line.&lt;/p&gt;
+
+&lt;h3 id=&quot;custom-short-command&quot;&gt;Custom short command&lt;/h3&gt;
+&lt;p&gt;Since no password is now needed to connect via SSH to the Virtual Machine, I like to automate all the process by creating a custom script for this. In this case, the script will only contain a single line of code, but in other scenarios you might want to perform additional actions before connecting to the VM, such as starting it for example. In order to create a custom script, we just create a file on the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/bin&lt;/code&gt; directory. Remember to create the file with &lt;strong&gt;sudo permissions&lt;/strong&gt;. My file will be called &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh_galileo&lt;/code&gt; and contains the following:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+ssh &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 8022 user@127.0.0.1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Then, we give execution permissions to the file with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;chmod&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo chmod&lt;/span&gt; +x /bin/ssh_galileo
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;And done! After that, you just run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh_galileo&lt;/code&gt; and you can automatically connect through SHH to your Debian machine.&lt;/p&gt;</content><author><name>Diego Carballeda</name></author><category term="Computer Science" /><summary type="html">How to setup a virtual machine with SSH access</summary></entry><entry><title type="html">DUPLICATED</title><link href="https://diegocarba99.github.io/blog/computer%20science/Duplicated-(7.a-copia)/" rel="alternate" type="text/html" title="DUPLICATED" /><published>2021-02-11T00:00:00+01:00</published><updated>2021-02-11T00:00:00+01:00</updated><id>https://diegocarba99.github.io/blog/computer%20science/Duplicated%20(7.a%20copia)</id><content type="html" xml:base="https://diegocarba99.github.io/blog/computer%20science/Duplicated-(7.a-copia)/">&lt;p&gt;Do you ever try to set-up a Virtual Machine (VM) environment on your local PC and always get stuck? You managed that one time to set-up everything to work smoothly, but now you forgot how all the process went along. Don’t worry, we’ve all been there. In this blog post, I’ll try to help you set up a VM on VirtualBox and get everything up and running in a few steps.&lt;/p&gt;
+
+&lt;h1 id=&quot;creating-the-vm-instance&quot;&gt;Creating the VM instance&lt;/h1&gt;
+
+&lt;p&gt;First of all, we need a VM. There are several options out there, and your taste might be (probably will be) different from mine. Nevertheless, for the sake of simplicity, we’ll set up a &lt;strong&gt;Debian&lt;/strong&gt; machine and &lt;strong&gt;VirtualBox&lt;/strong&gt; will be our hypervisor of choice.&lt;/p&gt;
+
+&lt;p&gt;I’ve chosen Debian for two main reasons. First of all, because is a Linux distro, and many of you will be looking for a Linux VM since the majority of the computer users worldwide use Windows. It’s a shame, but that how it is. Secondly, because is a very friendly Linux distro to start with, since it’s community is huge. Several forums exist so that every possible doubt can be solved rapidly, or probably will be already solved.&lt;/p&gt;
+
+&lt;p&gt;Also, I’ve chosen VirtualBox as the hypervisor for the VM. I personally like free-to-use and open-source software, since I think it drives the community forward and doesn’t envy anything to paid products.&lt;/p&gt;
+
+&lt;p&gt;After deciding the environment well be using, it’s time to set up the VM. If you’ve already set up a VM, you can jump right to the next part. Otherwise, you can &lt;strong&gt;follow a simple tutorial&lt;/strong&gt; to set the VM up. There are plenty and very comprehensive tutorials out there on how to install any SO on a VirtualBox VM. Personally, &lt;strong&gt;I recommend this tutorial&lt;/strong&gt; from &lt;a href=&quot;https://www.brianlinkletter.com/installing-debian-linux-in-a-virtualbox-virtual-machine/&quot;&gt;Open-Source Network Simulators&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;enabling-shh-access&quot;&gt;Enabling SHH access&lt;/h2&gt;
+&lt;p&gt;Most of the times, all the work we do on a VM is &lt;strong&gt;accessing the terminal&lt;/strong&gt; and working on it. Since we  use VMs as tools, we often don’t customize the environment to our liking. That doesn’t happen in our host machine. We usually have &lt;strong&gt;custom terminal&lt;/strong&gt; fonts or commands, or personalized desktop environments to suit our tastes. A good way to avoid working directly on the Virtual Machine and using all our custom environment is to &lt;strong&gt;access the VM via SSH&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;First of all, install the SSH server packgae &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;openssh-server&lt;/code&gt; on the Debian virtual machine. Simply run the following:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get update &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;openshh-server
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If we want to use SSH though, we must configure VirtualBox so that we can establish a connection between our host (your actual machine) and guest (the VM) machines. First, we have to set up the network adapters on our VM. Network Adapters are like the physical network interfaces for our VM. Since we want both Internet connection from our VM, and also an SSH connection from our host machine, we’ll set up a NAT-like Network Adapter.&lt;/p&gt;
+
+&lt;p class=&quot;notice--warning&quot;&gt;The Virtual Machine must be turned off to perform these steps.&lt;/p&gt;
+
+&lt;p&gt;For that, head to the VM settings (the orange gearwheel). Select the &lt;strong&gt;Network&lt;/strong&gt; category. We’ll be only using the first Network Adapter. Select the &lt;strong&gt;NAT&lt;/strong&gt; option on the &lt;em&gt;Attached to&lt;/em&gt; menu.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://diegocarba99.github.io/blog/assets/images/b001/001_network_adapter_NAT.png&quot; alt=&quot;nat adapter&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;After that, we need to access the &lt;strong&gt;Advanced Options&lt;/strong&gt; clicking on the bottom , and enable &lt;strong&gt;Port Forwarding&lt;/strong&gt; for our SSH connection. We click on the drop down button on the bottom of the window, and enter the &lt;strong&gt;Port Forwarding&lt;/strong&gt; menu clicking on it.&lt;/p&gt;
+
+&lt;p&gt;There, we press the upper right icon with a green cross to add a new rule. You must &lt;strong&gt;add a rule&lt;/strong&gt; similar to this one:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://diegocarba99.github.io/blog/assets/images/b001/002_port_rule.png&quot; alt=&quot;port rule&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Let’s clarify that rule. We are telling VirtualBox that every time a connection to address&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;127.0.0.1&lt;/code&gt; on port &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;8022&lt;/code&gt; is performed, to re-direct it to the Virtual Machines IP address (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;10.0.2.15&lt;/code&gt;). We also specify the destination port on the VM. In this case, since we want to access SHH, we must forward the connection to port 22.&lt;/p&gt;
+
+&lt;p class=&quot;notice&quot;&gt;Notice that the VMs address in the rule might not be your VMs IP address. If you want to check your IP address, you can run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$ hostname -I&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;We used the port 8022 because it will probably be an unused port on your Debian machine. This port number can be any port you like, but make sure you &lt;strong&gt;don’t overlap any other port in use&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;After all these steps, you should be able to &lt;strong&gt;connect&lt;/strong&gt; to your Debian machine &lt;strong&gt;through SSH&lt;/strong&gt;. You can access the virtual machine with the following command.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;shh &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 8022 user@127.0.0.1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;connection-with-rsa-and-custom-command&quot;&gt;Connection with RSA and custom command&lt;/h2&gt;
+&lt;p&gt;I have to admit that I usually don’t like to be &lt;strong&gt;repeating the same long command over and over again&lt;/strong&gt; for a task I know I’ll be doing repeatedly. This has led to aliasing or creating custom scripts to execute my most common tasks on my Linux machine. And connecting to my VM via SSH is one of those. So, in this chapter I’ll show you how to &lt;strong&gt;create a RSA key pair&lt;/strong&gt; to automatically connect to your VM without entering any passwords, and how to collapse all the process to executing a single command on your terminal.&lt;/p&gt;
+
+&lt;h3 id=&quot;rsa-key-pair&quot;&gt;RSA key pair&lt;/h3&gt;
+&lt;p&gt;SHH has a built-in feature, that let’s you create a pair of public/private keys to automate the connection through this protocol. We must follow these two simple steps:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;First we create the key pair using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh-keygen&lt;/code&gt; tool. In our case, we will be creating an RSA key pair with a key size of &lt;strong&gt;4096 B&lt;/strong&gt;. The algorithm is selected using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-t&lt;/code&gt; option and key size using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-b&lt;/code&gt; option. The default location to place the keys in it’s file will be the&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.ssh/&lt;/code&gt; directory on the users home directory, on a file name &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;id_rsa&lt;/code&gt;.  The command is the following:
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;ssh-keygen &lt;span class=&quot;nt&quot;&gt;-t&lt;/span&gt; rsa &lt;span class=&quot;nt&quot;&gt;-b&lt;/span&gt; 4096
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Next, we have to copy this key to our Debian machine. We can complete this step using the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh-copy-id&lt;/code&gt; command. We must specify where we want to copy our key, so we’ll indicate th VMs address and port in the command:&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ssh-copy-id user1@127.0.0.1 &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 8022
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;With that, you know can access the Debian VM without entering any password on the command line.&lt;/p&gt;
+
+&lt;h3 id=&quot;custom-short-command&quot;&gt;Custom short command&lt;/h3&gt;
+&lt;p&gt;Since no password is now needed to connect via SSH to the Virtual Machine, I like to automate all the process by creating a custom script for this. In this case, the script will only contain a single line of code, but in other scenarios you might want to perform additional actions before connecting to the VM, such as starting it for example. In order to create a custom script, we just create a file on the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/bin&lt;/code&gt; directory. Remember to create the file with &lt;strong&gt;sudo permissions&lt;/strong&gt;. My file will be called &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh_galileo&lt;/code&gt; and contains the following:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+ssh &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 8022 user@127.0.0.1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Then, we give execution permissions to the file with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;chmod&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sudo chmod&lt;/span&gt; +x /bin/ssh_galileo
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;And done! After that, you just run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ssh_galileo&lt;/code&gt; and you can automatically connect through SHH to your Debian machine.&lt;/p&gt;</content><author><name>Diego Carballeda</name></author><category term="Computer Science" /><summary type="html">How to setup a virtual machine with SSH access</summary></entry></feed>

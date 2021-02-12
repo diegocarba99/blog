@@ -1,0 +1,381 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.21.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>DUPLICATED | Diego Blog</title>
+<meta name="description" content="How to setup a virtual machine with SSH access">
+
+
+  <meta name="author" content="Diego Carballeda">
+  
+
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Diego Blog">
+<meta property="og:title" content="DUPLICATED">
+<meta property="og:url" content="https://diegocarba99.github.io/blog/_posts/2021-02-11-Duplicated%20(6.a%20copia)/">
+
+
+  <meta property="og:description" content="How to setup a virtual machine with SSH access">
+
+
+
+  <meta property="og:image" content="https://diegocarba99.github.io/blog/assets/images/b001/header.jpg">
+
+
+
+  <meta name="twitter:site" content="@diegocarba99">
+  <meta name="twitter:title" content="DUPLICATED">
+  <meta name="twitter:description" content="How to setup a virtual machine with SSH access">
+  <meta name="twitter:url" content="https://diegocarba99.github.io/blog/_posts/2021-02-11-Duplicated%20(6.a%20copia)/">
+
+  
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://diegocarba99.github.io/blog/assets/images/b001/header.jpg">
+  
+
+  
+
+
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://diegocarba99.github.io/blog/_posts/2021-02-11-Duplicated%20(6.a%20copia)/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Diego Carballeda",
+      "url": "https://diegocarba99.github.io/blog/",
+      "sameAs": ["https://twitter.com/diegocarba99","https://instagram.com/diej99","https://www.linkedin.com/in/diegocarballeda"]
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/blog/feed.xml" type="application/atom+xml" rel="alternate" title="Diego Blog Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/blog/assets/css/main.css">
+<link rel="icon" href="/assets/images/logo_big.png">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/blog/"><img src="/blog/assets/images/logo.png" alt=""></a>
+        
+        <a class="site-title" href="/blog/">
+          Diego Blog
+          <span class="site-subtitle">Tech and personal blog</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/blog/index.html">Posts</a>
+            </li><li class="masthead__menu-item">
+              <a href="/blog/index.html">Photography</a>
+            </li><li class="masthead__menu-item">
+              <a href="/blog/index.html">About</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero"
+  style=" background-image: url('');"
+>
+  
+    <img src="/blog/assets/images/b001/header.jpg" alt="DUPLICATED" class="page__hero-image">
+  
+  
+</div>
+
+
+
+
+
+<div id="main" role="main">
+  
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="DUPLICATED">
+    <meta itemprop="description" content="How to setup a virtual machine with SSH access">
+    
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">DUPLICATED
+</h1>
+          
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <p>Do you ever try to set-up a Virtual Machine (VM) environment on your local PC and always get stuck? You managed that one time to set-up everything to work smoothly, but now you forgot how all the process went along. Don’t worry, we’ve all been there. In this blog post, I’ll try to help you set up a VM on VirtualBox and get everything up and running in a few steps.</p>
+
+<h1 id="creating-the-vm-instance">Creating the VM instance</h1>
+
+<p>First of all, we need a VM. There are several options out there, and your taste might be (probably will be) different from mine. Nevertheless, for the sake of simplicity, we’ll set up a <strong>Debian</strong> machine and <strong>VirtualBox</strong> will be our hypervisor of choice.</p>
+
+<p>I’ve chosen Debian for two main reasons. First of all, because is a Linux distro, and many of you will be looking for a Linux VM since the majority of the computer users worldwide use Windows. It’s a shame, but that how it is. Secondly, because is a very friendly Linux distro to start with, since it’s community is huge. Several forums exist so that every possible doubt can be solved rapidly, or probably will be already solved.</p>
+
+<p>Also, I’ve chosen VirtualBox as the hypervisor for the VM. I personally like free-to-use and open-source software, since I think it drives the community forward and doesn’t envy anything to paid products.</p>
+
+<p>After deciding the environment well be using, it’s time to set up the VM. If you’ve already set up a VM, you can jump right to the next part. Otherwise, you can <strong>follow a simple tutorial</strong> to set the VM up. There are plenty and very comprehensive tutorials out there on how to install any SO on a VirtualBox VM. Personally, <strong>I recommend this tutorial</strong> from <a href="https://www.brianlinkletter.com/installing-debian-linux-in-a-virtualbox-virtual-machine/">Open-Source Network Simulators</a>.</p>
+
+<h2 id="enabling-shh-access">Enabling SHH access</h2>
+<p>Most of the times, all the work we do on a VM is <strong>accessing the terminal</strong> and working on it. Since we  use VMs as tools, we often don’t customize the environment to our liking. That doesn’t happen in our host machine. We usually have <strong>custom terminal</strong> fonts or commands, or personalized desktop environments to suit our tastes. A good way to avoid working directly on the Virtual Machine and using all our custom environment is to <strong>access the VM via SSH</strong>.</p>
+
+<p>First of all, install the SSH server packgae <code class="language-plaintext highlighter-rouge">openssh-server</code> on the Debian virtual machine. Simply run the following:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>apt-get update <span class="o">&amp;&amp;</span> <span class="nb">sudo </span>apt-get <span class="nb">install </span>openshh-server
+</code></pre></div></div>
+
+<p>If we want to use SSH though, we must configure VirtualBox so that we can establish a connection between our host (your actual machine) and guest (the VM) machines. First, we have to set up the network adapters on our VM. Network Adapters are like the physical network interfaces for our VM. Since we want both Internet connection from our VM, and also an SSH connection from our host machine, we’ll set up a NAT-like Network Adapter.</p>
+
+<p class="notice--warning">The Virtual Machine must be turned off to perform these steps.</p>
+
+<p>For that, head to the VM settings (the orange gearwheel). Select the <strong>Network</strong> category. We’ll be only using the first Network Adapter. Select the <strong>NAT</strong> option on the <em>Attached to</em> menu.</p>
+
+<p><img src="https://diegocarba99.github.io/blog/assets/images/b001/001_network_adapter_NAT.png" alt="nat adapter" /></p>
+
+<p>After that, we need to access the <strong>Advanced Options</strong> clicking on the bottom , and enable <strong>Port Forwarding</strong> for our SSH connection. We click on the drop down button on the bottom of the window, and enter the <strong>Port Forwarding</strong> menu clicking on it.</p>
+
+<p>There, we press the upper right icon with a green cross to add a new rule. You must <strong>add a rule</strong> similar to this one:</p>
+
+<p><img src="https://diegocarba99.github.io/blog/assets/images/b001/002_port_rule.png" alt="port rule" /></p>
+
+<p>Let’s clarify that rule. We are telling VirtualBox that every time a connection to address<code class="language-plaintext highlighter-rouge">127.0.0.1</code> on port <code class="language-plaintext highlighter-rouge">8022</code> is performed, to re-direct it to the Virtual Machines IP address (<code class="language-plaintext highlighter-rouge">10.0.2.15</code>). We also specify the destination port on the VM. In this case, since we want to access SHH, we must forward the connection to port 22.</p>
+
+<p class="notice">Notice that the VMs address in the rule might not be your VMs IP address. If you want to check your IP address, you can run <code class="language-plaintext highlighter-rouge">$ hostname -I</code>.</p>
+
+<p>We used the port 8022 because it will probably be an unused port on your Debian machine. This port number can be any port you like, but make sure you <strong>don’t overlap any other port in use</strong>.</p>
+
+<p>After all these steps, you should be able to <strong>connect</strong> to your Debian machine <strong>through SSH</strong>. You can access the virtual machine with the following command.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>shh <span class="nt">-p</span> 8022 user@127.0.0.1
+</code></pre></div></div>
+
+<h2 id="connection-with-rsa-and-custom-command">Connection with RSA and custom command</h2>
+<p>I have to admit that I usually don’t like to be <strong>repeating the same long command over and over again</strong> for a task I know I’ll be doing repeatedly. This has led to aliasing or creating custom scripts to execute my most common tasks on my Linux machine. And connecting to my VM via SSH is one of those. So, in this chapter I’ll show you how to <strong>create a RSA key pair</strong> to automatically connect to your VM without entering any passwords, and how to collapse all the process to executing a single command on your terminal.</p>
+
+<h3 id="rsa-key-pair">RSA key pair</h3>
+<p>SHH has a built-in feature, that let’s you create a pair of public/private keys to automate the connection through this protocol. We must follow these two simple steps:</p>
+
+<ol>
+  <li>First we create the key pair using the <code class="language-plaintext highlighter-rouge">ssh-keygen</code> tool. In our case, we will be creating an RSA key pair with a key size of <strong>4096 B</strong>. The algorithm is selected using the <code class="language-plaintext highlighter-rouge">-t</code> option and key size using the <code class="language-plaintext highlighter-rouge">-b</code> option. The default location to place the keys in it’s file will be the<code class="language-plaintext highlighter-rouge">.ssh/</code> directory on the users home directory, on a file name <code class="language-plaintext highlighter-rouge">id_rsa</code>.  The command is the following:
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>ssh-keygen <span class="nt">-t</span> rsa <span class="nt">-b</span> 4096
+</code></pre></div>    </div>
+  </li>
+  <li>Next, we have to copy this key to our Debian machine. We can complete this step using the <code class="language-plaintext highlighter-rouge">ssh-copy-id</code> command. We must specify where we want to copy our key, so we’ll indicate th VMs address and port in the command:</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh-copy-id user1@127.0.0.1 <span class="nt">-p</span> 8022
+</code></pre></div></div>
+
+<p>With that, you know can access the Debian VM without entering any password on the command line.</p>
+
+<h3 id="custom-short-command">Custom short command</h3>
+<p>Since no password is now needed to connect via SSH to the Virtual Machine, I like to automate all the process by creating a custom script for this. In this case, the script will only contain a single line of code, but in other scenarios you might want to perform additional actions before connecting to the VM, such as starting it for example. In order to create a custom script, we just create a file on the <code class="language-plaintext highlighter-rouge">/bin</code> directory. Remember to create the file with <strong>sudo permissions</strong>. My file will be called <code class="language-plaintext highlighter-rouge">ssh_galileo</code> and contains the following:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+ssh <span class="nt">-p</span> 8022 user@127.0.0.1
+</code></pre></div></div>
+
+<p>Then, we give execution permissions to the file with <code class="language-plaintext highlighter-rouge">chmod</code>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo chmod</span> +x /bin/ssh_galileo
+</code></pre></div></div>
+
+<p>And done! After that, you just run <code class="language-plaintext highlighter-rouge">ssh_galileo</code> and you can automatically connect through SHH to your Debian machine.</p>
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/blog/categories/#computer-science" class="page__taxonomy-item" rel="tag">Computer Science</a>
+    
+    </span>
+  </p>
+
+
+        
+
+      </footer>
+
+      
+
+      
+    </div>
+
+    
+  </article>
+
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        
+      </footer>
+    </div>
+
+    
+  <script src="/blog/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/blog/assets/js/lunr/lunr.min.js"></script>
+<script src="/blog/assets/js/lunr/lunr-store.js"></script>
+<script src="/blog/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+
+
+
+  </body>
+</html>

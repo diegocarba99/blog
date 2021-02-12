@@ -1,14 +1,8 @@
 # main links
 main:
-  - title: "Home"
-    url: index.html
-  - title: "Computer Science"
+  - title: "Posts"
     url: index.html
   - title: "Photography"
     url: index.html
-  - title: "Guitar"
-    url: index.html
-  - title: "Sitemap"
-    url: /sitemap/
   - title: "About"
     url: index.html
