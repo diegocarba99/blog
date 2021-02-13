@@ -16,16 +16,16 @@ minimal_mistakes_skin    : "dark" # "air", "aqua", "contrast", "dark", "dirt", "
 
 # Site Settings
 locale                   : "en-US"
-title                    : "Diego Blog"
+title                    : "Dark Shark"
 title_separator          : "|"
-subtitle                 : "Tech and personal blog" # site tagline that appears below site title in masthead
-name                     : "Diego Carballeda"
+subtitle                 :  # site tagline that appears below site title in masthead
+name                     : "Dark Shark"
 description              : "Diego Carballeda's personal blog to talk about tech and other stuff."
 url                      : "https://diegocarba99.github.io" # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : "/blog" # the subpath of your site, e.g. "/blog"
 repository               : "diegocarba99/blog" # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
 teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
-logo                     : "assets/images/logo.png" # path of logo image to display in the masthead, e.g. "/assets/images/88x88.png"
+logo                     : "assets/images/dark_shark_logo.png" # path of logo image to display in the masthead, e.g. "/assets/images/88x88.png"
 masthead_title           : # overrides the website title displayed in the masthead, use " " for no title
 # breadcrumbs            : false # true, false (default)
 words_per_minute         : 200
