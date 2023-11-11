@@ -1,26 +1,26 @@
 languageCode = "en"
 languageName = "English"
 weight = 1
-title = "Blowfish"
+title = "Diego Carballeda"
 
 [params]
   displayName = "EN"
   isoCode = "en"
   rtl = false
   dateFormat = "2 January 2006"
-  # logo = "img/logo.png"
+  logo = "img/favicon.jpeg"
   # secondaryLogo = "img/secondary-logo.png"
   # description = "My awesome website"
-  # copyright = "Copy, _right?_ :thinking_face:"
+   copyright = "Copy, _right?_ :thinking_face:"
 
- [author]
-   name = "Diego - GHA"
-#   image = "img/blowfish_logo.png"
-   headline = "I'm only human by GHA"
-   bio = "A little bit about you"
-   links = [
-     { github = "https://github.com/diegocarba99" }
-]
+# [author]
+#   name = "Diego"
+#   image = "img/diej.jpeg"
+#   headline = "Security Engineer trying to do evil stuff"
+#   bio = "Security Engineer @ Skyscanner. Hacker. Musician."
+#   links = [
+#     { github = "https://github.com/diegocarba99" }
+#]
 #     { email = "mailto:hello@your_domain.com" },
 #     { link = "https://link-to-some-website.com/" },
 #     { amazon = "https://www.amazon.com/hz/wishlist/ls/wishlist-id" },
@@ -63,4 +63,3 @@ title = "Blowfish"
 #     { whatsapp = "https://wa.me/phone-number" },
 #     { youtube = "https://youtube.com/username" },
 #     { ko-fi = "https://ko-fi.com/username" },
-#   ]
