@@ -2,14 +2,14 @@
 
 [![Deployment](https://github.com/diegocarba99/blog/actions/workflows/main.yml/badge.svg)](https://github.com/diegocarba99/blog/actions/workflows/main.yml)
 
-## Prequisites
+## Prerequisites
 
 - [Hugo](https://gohugo.io/installation/)
 - AWS resources
 	- S3 bucket
 	- Cloudfront CDN
 
-## Start writting
+## Start writing
 
 I'm a bit lazy so I created a little bash function that creates the folder and Markdown file needed for the blog. Just make sure
 you update the `blog_dir` variable with the path where you keep your blog folder. Paste this in your `.bashrc` or `;zshrc` and you are good to go
@@ -77,3 +77,8 @@ The S3 bucket is behind a CloudFront distribution in order to serve it using HTT
 GitHub Actions is used to build the static content and deploy it to the S3 bucket.
 
 ![blog-arch](assets/img/blog-arch.png)
+
+# To-Dos
+
+- Create an RSS feed for the blog https://rimdev.io/creating-rss-feeds-using-hugo
+- Update https://github.com/diegocarba99/diegocarba99 and add recent blog posts using https://github.com/muesli/readme-scribe
