@@ -1,84 +1,59 @@
-# This is my blog :)
+# Diego's Personal Blog
+
+This repository contains the source code for my personal blog, built with [Hugo](https://gohugo.io/) and deployed on AWS.
 
 [![Deployment](https://github.com/diegocarba99/blog/actions/workflows/main.yml/badge.svg)](https://github.com/diegocarba99/blog/actions/workflows/main.yml)
 
-## Prerequisites
+## 🚀 Getting Started
 
-- [Hugo](https://gohugo.io/installation/)
-- AWS resources
-	- S3 bucket
-	- Cloudfront CDN
+This project uses a `Makefile` to simplify common tasks.
 
-## Start writing
+### Prerequisites
 
-I'm a bit lazy so I created a little bash function that creates the folder and Markdown file needed for the blog. Just make sure
-you update the `blog_dir` variable with the path where you keep your blog folder. Paste this in your `.bashrc` or `;zshrc` and you are good to go
+- **Hugo**: The static site generator.
+- **macOS**: The `install-dev-mac` command uses [Homebrew](https://brew.sh/). For other operating systems, please install Hugo manually.
 
-```sh
-new-blog-entry() {
-  if [ $# -eq 0 ]; then
-    echo "Please provide the name of the new article"
-    exit
-  fi
+### 1. Install Dependencies
 
-  title="$1"
-  blog_dir="$HOME/dev/blog/content"
-
-  cd
-  title_lower=$(echo $title | tr ' ' '-' | tr '[:upper:]' '[:lower:]')
-  new_dir="$blog_dir/$(date "+%Y%m%d")-$title_lower"
-
-  if [ -d "$new_dir" ]; then
-    echo "Directory '$new_dir' already exists."
-  else
-    mkdir -p "$new_dir"
-    touch "$new_dir/$title_lower.md"
-    cd $new_dir
-    echo "New directory created in $(pwd)"
-
-	echo "---" > $new_dir/$title_lower.md
-	echo "title: \"$title\"" > $new_dir/$title_lower.md
-	echo "date: $(date "+%Y-%m-%d")" > $new_dir/$title_lower.md
-	echo "tags: []" > $new_dir/$title_lower.md
-  fi
-}
-```
-
-Just make sure you update your profile before trying to use the function
+Install Hugo and the testing dependencies by running:
 
 ```sh
-source ~/.bashrc
-source ~/.zshrc
+make install-dev-mac
 ```
 
-The you can just create new entries with:
+### 2. Run Locally
+
+To start the local development server:
 
 ```sh
-new-blog-entry "My new blog post"
+make deploy-local
 ```
 
+You can now view the blog at `http://localhost:1313`. The site will automatically reload when you make changes to the content.
 
-## Locally testing
+## ✍️ Creating a New Post
 
-To view a local version of your blog just run the following command
+To create a new blog post, use the standard Hugo command:
 
+```sh
+hugo new content posts/YYYY-MM-DD-your-post-title.md
 ```
-hugo server
-```
 
-You'll be able to view your local version in http://localhost:1313. 
-Changes are dynamic, so any changes in the files will be replicated into 
-your browser.
+This will create a new Markdown file in the `content/posts/` directory with the basic front matter.
 
-## Deployment
 
-This blog is hosted on an S3 bucket here the static output of Hugo is served. 
-The S3 bucket is behind a CloudFront distribution in order to serve it using HTTPS.
-GitHub Actions is used to build the static content and deploy it to the S3 bucket.
+## ☁️ Deployment Architecture
 
-![blog-arch](assets/img/blog-arch.png)
+This blog is automatically built and deployed using GitHub Actions.
 
-# To-Dos
+- **Hugo** builds the static HTML, CSS, and JS files.
+- **GitHub Actions** runs on every push to the `main` branch to build the site and deploy it.
+- **Amazon S3** hosts the static website content.
+- **Amazon CloudFront** serves as the CDN to distribute the content globally over HTTPS.
 
-- Create an RSS feed for the blog https://rimdev.io/creating-rss-feeds-using-hugo
-- Update https://github.com/diegocarba99/diegocarba99 and add recent blog posts using https://github.com/muesli/readme-scribe
+![Blog Architecture Diagram](assets/img/blog-arch.png)
+
+## 📝 To-Do
+
+- [ ] Create an RSS feed for the blog.
+- [ ] Update my GitHub profile README to list recent blog posts.
