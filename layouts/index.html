@@ -1,8 +1,31 @@
-{{ define "main" }}
-  {{ $partial := print "partials/home/" .Site.Params.homepage.layout ".html" }}
-  {{ if templates.Exists $partial }}
-    {{ partial $partial . }}
-  {{ else }}
-    {{ partial "partials/home/profile.html" . }}
-  {{ end }}
-{{ end }}
+<!DOCTYPE html>
+<html>
+	{{ partial "header.html" . }}
+	<body>
+		<div class="content">
+			{{ partial "head.html" . }}
+			
+			<main class="list">
+				<div class="site-description">
+					{{- if isset .Site.Params "subtitle" -}}
+					<p>{{ .Site.Params.Subtitle | .Page.RenderString }}</p>
+					{{- end -}}
+				</div>
+				{{ $pages := where .Site.RegularPages "Type" "in" .Site.Params.mainSections }}
+				{{ $paginator := .Paginate (where $pages "Params.hidden" "ne" true) }}
+				{{ range $paginator.Pages }}
+				<section class="list-item">
+					<h1 class="title">
+						<a href="{{ .RelPermalink }}">{{.Title}}</a>
+						<span style="font-size: 0.7em; font-weight: normal; margin-left: 1em; color: #666;">{{ dateFormat ":date_medium" .Date }}{{ if .Draft }} <span class="draft-label">DRAFT</span> {{ end }}</span>
+					</h1>
+					{{ template "partials/pagedescription.html" . }}
+				</section>
+				{{ end }}
+				{{ template "partials/paginator.html" . }}
+			</main>
+			{{ partial "footer.html" . }}
+		</div>
+		
+	</body>
+</html>

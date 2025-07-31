@@ -12,16 +12,14 @@
 
 
 [[main]]
-  pre = "github"
-  name = "GitHub"
-  url = "https://github.com/diegocarba99"
-  weight = 30
+  name = "Posts"
+  pageRef = "/"
+  weight = 10
 
 [[main]]
-  pre = "twitter"
-  name = "Twitter"
-  url = "https://twitter.com/diej_99"
-  weight = 30
+  name = "Gallery"
+  url = "/gallery/"
+  weight = 20
 
 
 #[[main]]

@@ -1,0 +1,10 @@
+/* Custom styles to override theme defaults */
+
+:root {
+  --maincolor: #d90429;
+  --hovercolor: #ff4757;
+}
+
+footer {
+  border-top: 1px solid black !important;
+}
