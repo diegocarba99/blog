@@ -10,7 +10,7 @@ summaryLength = 0
 [pagination]
   pagerSize = 10
 
-buildDrafts = false
+buildDrafts = true
 buildFuture = true
 
 [imaging]
