@@ -1,6 +1,6 @@
 ---
 title: "Fun in the AI era"
-date: 2025-08-01
+date: 2023-10-29
 tags: ["opinion"]
 description: "An opinionated view on the role of AI in our lives"
 ---
