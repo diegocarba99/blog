@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 permissions:
   id-token: write
@@ -38,6 +41,11 @@ jobs:
           role-to-assume: arn:aws:iam::490050289203:role/blog_gha_deploy_role
           role-session-name: gha_deploy_s3_blog
           aws-region: 'eu-west-1'
+
+      - name: Dry run Deploy to S3
+        if: github.event_name == 'pull_request'
+        run: |
+          hugo deploy --target "Website diej.org" --maxDeletes -1 --invalidateCDN --dryRun
 
       - name: Deploy to S3
         run: |
