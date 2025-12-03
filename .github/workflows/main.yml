@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -28,10 +32,13 @@ jobs:
         run: |
           hugo --minify
 
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@61815dcd50bd041e203e49132bacad1fd04d2708
+        with:
+          role-to-assume: arn:aws:iam::490050289203:role/blog_gha_deploy_role
+          role-session-name: gha_deploy_s3_blog
+          aws-region: 'eu-west-1'
+
       - name: Deploy to S3
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: 'eu-west-1'
         run: |
           hugo deploy --target "Website diej.org" --maxDeletes -1 --invalidateCDN
