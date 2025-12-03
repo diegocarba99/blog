@@ -47,6 +47,11 @@ jobs:
         run: |
           hugo --minify
 
+      - name: Debug OIDC Claims
+        uses: steve-todorov/oidc-debugger-action@v1.0.2
+        with:
+          audience: '${{ github.server_url }}/${{ github.repository }}'
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v5.1.1
         with:
