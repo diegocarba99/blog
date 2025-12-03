@@ -65,5 +65,6 @@ jobs:
           hugo deploy --target "Website diej.org" --maxDeletes -1 --invalidateCDN --dryRun
 
       - name: Deploy to S3
+        if: github.event_name != 'pull_request'
         run: |
           hugo deploy --target "Website diej.org" --maxDeletes -1 --invalidateCDN
