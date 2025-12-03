@@ -48,7 +48,6 @@ jobs:
           hugo --minify
 
       - name: Configure AWS Credentials
-        if: github.event_name != 'pull_request'
         uses: aws-actions/configure-aws-credentials@61815dcd50bd041e203e49132bacad1fd04d2708
         with:
           role-to-assume: arn:aws:iam::490050289203:role/blog_gha_deploy_role
