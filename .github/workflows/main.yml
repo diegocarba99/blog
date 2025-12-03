@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 permissions:
   id-token: write
@@ -13,7 +16,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
           submodules: true
           fetch-depth: 0
@@ -22,8 +25,20 @@ jobs:
         run: |
           HUGO_VERSION=$(curl -s https://api.github.com/repos/gohugoio/hugo/releases/latest | grep "tag_name" | cut -d '"' -f 4)
           echo "Downloading Hugo ${HUGO_VERSION}"
-          wget -q https://github.com/gohugoio/hugo/releases/download/${HUGO_VERSION}/hugo_extended_${HUGO_VERSION#v}_linux-amd64.tar.gz
-          tar -xzf hugo_extended_${HUGO_VERSION#v}_linux-amd64.tar.gz
+          wget -q https://github.com/gohugoio/hugo/releases/download/${HUGO_VERSION}/hugo_extended_withdeploy_${HUGO_VERSION#v}_linux-amd64.tar.gz
+          
+          # Verify SHA256 hash
+          EXPECTED_HASH="08200e4d82f086c94c301e8ba08102f9e23f38774ad949bb3251cac76283684a"
+          ACTUAL_HASH=$(sha256sum hugo_extended_withdeploy_${HUGO_VERSION#v}_linux-amd64.tar.gz | cut -d ' ' -f 1)
+          echo "Binary hash: ${ACTUAL_HASH}"
+          
+          if [ "${ACTUAL_HASH}" != "${EXPECTED_HASH}" ]; then
+            echo "ERROR: Hash mismatch! Downloaded file may be corrupted or tampered with."
+            exit 1
+          fi
+          echo "Hash verification successful!"
+          
+          tar -xzf hugo_extended_withdeploy_${HUGO_VERSION#v}_linux-amd64.tar.gz
           chmod +x hugo
           sudo mv hugo /usr/local/bin/
           hugo version
@@ -33,12 +48,18 @@ jobs:
           hugo --minify
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@61815dcd50bd041e203e49132bacad1fd04d2708
+        uses: aws-actions/configure-aws-credentials@61815dcd50bd041e203e49132bacad1fd04d2708 # v5.1.1
         with:
           role-to-assume: arn:aws:iam::490050289203:role/blog_gha_deploy_role
           role-session-name: gha_deploy_s3_blog
           aws-region: 'eu-west-1'
 
+      - name: Dry run Deploy to S3
+        if: github.event_name == 'pull_request'
+        run: |
+          hugo deploy --target "Website diej.org" --maxDeletes -1 --invalidateCDN --dryRun
+
       - name: Deploy to S3
+        if: github.event_name != 'pull_request'
         run: |
           hugo deploy --target "Website diej.org" --maxDeletes -1 --invalidateCDN
